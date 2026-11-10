@@ -1,6 +1,6 @@
 # the pills under the searchbox. a preset with `region` is the default for visitors from those countries.
 # icon = one of the monochrome glyphs at the top of untaken.html (swiss, globe, music, code, news, star, all)
-Swiss Basic:
+Swiss:
   icon: swiss
   region: [CH, LI]
   sites: [x, instagram, tiktok, github, ricardo, ebay, shopify, steam, producthunt, zefix, ch]
