@@ -196,12 +196,3 @@ dribbble:
   chars: a-z0-9_-
   length: 2-20
   known: dribbble
-gravatar:
-  url: https://gravatar.com/{}.json
-  link: https://gravatar.com/{}
-  signup: https://gravatar.com/
-  taken: {status: 200, contains: profileUrl}
-  free: {status: 404, contains: User not found}
-  chars: a-z0-9
-  length: 1-40
-  known: matt

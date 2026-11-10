@@ -52,3 +52,9 @@ gumroad:
   chars: a-z0-9
   length: 3-20
   known: sahil
+alternativeto:
+  link: https://alternativeto.net/software/{}/
+  signup: https://alternativeto.net/manage-item/
+  manual: cloudflare wall
+  chars: a-z0-9-
+  length: 1-60
