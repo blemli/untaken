@@ -7,7 +7,7 @@
 <meta name="description" content="the name is the game: check a name on 200 sites at once">
 <link rel="icon" href="/favicon.svg">
 <style>
-:root { --fg: #000; --bg: #fff; --line: #ddd; --free: #0f9d3a; --taken: #e01b24; --probably_free: #ff7800; --probably_taken: #f58a90; --unknown: #f0c000; --invalid: #a208ba; color-scheme: light dark }
+:root { --fg: #000; --bg: #fff; --line: #ddd; --free: #0f9d3a; --taken: #e01b24; --probably_free: #ff7800; --probably_taken: #8f5a2a; --unknown: #f0c000; --invalid: #a208ba; color-scheme: light dark }
 @media (prefers-color-scheme: dark) { :root { --fg: #eee; --bg: #111; --line: #333 } }
 * { box-sizing: border-box }
 body { margin: 0; display: flex; min-height: 100vh; font: 14px/1.4 ui-monospace, Menlo, Consolas, monospace; color: var(--fg); background: var(--bg) }
@@ -53,7 +53,7 @@ form { display: flex; gap: 8px; max-width: 640px }
 @keyframes pulse { 50% { opacity: .15 } }
 @media (prefers-reduced-motion: reduce) { .checking > :not(nav) { animation: none; opacity: .4 } }
 footer { margin-top: 24px; font-size: 11px; opacity: .6 }
-@media (max-width: 760px) { body { flex-direction: column } aside { width: auto; height: auto; position: static; border-right: 0; border-bottom: 3px solid var(--fg) } #history { max-height: 130px } }
+@media (max-width: 760px) { body { flex-direction: column } aside { width: auto; height: auto; position: static; border-right: 0; border-bottom: 3px solid var(--fg) } #history, #clear, #names { display: none } }
 </style>
 </head>
 <body>
@@ -82,7 +82,7 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
     <span id="status"></span>
   </div>
   <div id="grid"></div>
-  <footer>click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; light red: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
+  <footer>click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
   your searches are saved only in your browser, never on our server - except for the result cache, which lives in memory for one hour. the name is of course sent to the sites being checked.</footer>
 </main>
 <script>

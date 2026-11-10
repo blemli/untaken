@@ -7,13 +7,6 @@ aboutme:
   known: blue
   taken: {status: 200}
   free: {status: 404}
-akniga:
-  name: akniga
-  url: https://akniga.org/profile/{}
-  signup: https://akniga.org/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
 allmylinks:
   name: AllMyLinks
   url: https://allmylinks.com/{}
@@ -52,14 +45,6 @@ atcoder:
   known: ksun48
   taken: {status: 200}
   free: {status: 404}
-audiojungle:
-  name: Audiojungle
-  url: https://audiojungle.net/user/{}
-  signup: https://audiojungle.net/
-  known: blue
-  valid: ^[a-zA-Z0-9_]+$
-  taken: {status: 200}
-  free: {status: 404}
 awsskillsprofile:
   name: AWS Skills Profile
   url: https://skillsprofile.skillbuilder.aws/user/{}/
@@ -87,13 +72,6 @@ bookcrossing:
   url: https://www.bookcrossing.com/mybookshelf/{}/
   signup: https://www.bookcrossing.com/
   known: blue
-  taken: {status: 200}
-  free: {status: 404}
-bugcrowd:
-  name: BugCrowd
-  url: https://bugcrowd.com/{}
-  signup: https://bugcrowd.com/
-  known: ppfeister
   taken: {status: 200}
   free: {status: 404}
 carrd:
@@ -156,20 +134,6 @@ codecademy:
   known: blue
   taken: {contains: '{}', lacks: This profile could not be found, status: 200}
   free: {contains: This profile could not be found}
-coderwall:
-  name: Coderwall
-  url: https://coderwall.com/{}
-  signup: https://coderwall.com
-  known: hacker
-  taken: {status: 200}
-  free: {status: 404}
-codewars:
-  name: Codewars
-  url: https://www.codewars.com/users/{}
-  signup: https://www.codewars.com
-  known: example
-  taken: {status: 200}
-  free: {status: 404}
 cplusplus:
   name: Cplusplus
   url: https://cplusplus.com/user/{}
@@ -228,15 +192,6 @@ exophase:
   url: https://www.exophase.com/user/{}/
   signup: https://www.exophase.com/
   known: blue
-  taken: {status: 200}
-  free: {status: 404}
-exposure:
-  name: Exposure
-  url: https://{}.exposure.co/
-  signup: https://exposure.co/
-  known: jonasjacobsson
-  chars: a-zA-Z0-9-
-  length: 1-63
   taken: {status: 200}
   free: {status: 404}
 fl:
@@ -404,13 +359,6 @@ hackthebox:
   known: angar
   taken: {status: 200}
   free: {status: 404}
-ifunny:
-  name: Ifunny
-  url: https://ifunny.co/user/{}
-  signup: https://ifunny.co/
-  known: agua
-  taken: {status: 200}
-  free: {status: 404}
 imgur:
   name: Imgur
   url: https://api.imgur.com/account/v1/accounts/{}?client_id=546c25a59c58ad7
@@ -457,16 +405,6 @@ kongregate:
   valid: ^[a-zA-Z][a-zA-Z0-9_-]*$
   taken: {status: 200}
   free: {status: 404}
-kvinneguiden:
-  name: Kvinneguiden
-  url: https://forum.kvinneguiden.no/?app=core&module=system&controller=ajax&do=usernameExists&input={}
-  link: https://forum.kvinneguiden.no
-  signup: https://forum.kvinneguiden.no
-  known: blue
-  chars: a-zA-Z0-9_.-
-  length: 3-18
-  probably_taken: {lacks: '{"result":"ok"}', status: 200}
-  free: {contains: '{"result":"ok"}'}
 kwork:
   name: kwork
   url: https://kwork.ru/user/{}
@@ -494,14 +432,6 @@ livelib:
   url: https://www.livelib.ru/reader/{}
   signup: https://www.livelib.ru/
   known: blue
-  taken: {status: 200}
-  free: {status: 404}
-lobsters:
-  name: Lobsters
-  url: https://lobste.rs/u/{}
-  signup: https://lobste.rs/
-  known: jcs
-  valid: '[A-Za-z0-9][A-Za-z0-9_-]{0,24}'
   taken: {status: 200}
   free: {status: 404}
 lor:
@@ -618,13 +548,6 @@ opencollective:
   known: sindresorhus
   taken: {status: 200}
   free: {status: 404}
-opengameart:
-  name: OpenGameArt
-  url: https://opengameart.org/users/{}
-  signup: https://opengameart.org
-  known: ski
-  taken: {status: 200}
-  free: {status: 404}
 openstreetmap:
   name: OpenStreetMap
   url: https://www.openstreetmap.org/user/{}
@@ -659,13 +582,6 @@ pixelfedsocial:
   url: https://pixelfed.social/{}/
   signup: https://pixelfed.social
   known: pylapp
-  taken: {status: 200}
-  free: {status: 404}
-platzi:
-  name: Platzi
-  url: https://platzi.com/p/{}/
-  signup: https://platzi.com/
-  known: freddier
   taken: {status: 200}
   free: {status: 404}
 plurk:
@@ -725,13 +641,6 @@ slack:
   valid: ^[a-zA-Z][a-zA-Z0-9_-]*$
   taken: {status: 200}
   free: {status: 404}
-spacehey:
-  name: SpaceHey
-  url: https://spacehey.com/{}
-  signup: https://spacehey.com/
-  known: blue
-  taken: {contains: '{}', lacks: Not Found (Error 404) | SpaceHey, status: 200}
-  free: {contains: Not Found (Error 404) | SpaceHey}
 speakerdeck:
   name: SpeakerDeck
   url: https://speakerdeck.com/{}
@@ -798,13 +707,6 @@ tistory:
   url: https://{}.tistory.com/
   signup: https://www.tistory.com/
   known: notice
-  taken: {status: 200}
-  free: {status: 404}
-topmate:
-  name: Topmate
-  url: https://topmate.io/{}
-  signup: https://topmate.io/
-  known: blue
   taken: {status: 200}
   free: {status: 404}
 tradingview:
@@ -953,14 +855,6 @@ wykop:
   known: blue
   taken: {status: 200}
   free: {status: 404}
-younow:
-  name: YouNow
-  url: https://api.younow.com/php/api/broadcast/info/user={}/
-  link: https://www.younow.com/{}/
-  signup: https://www.younow.com/
-  known: blue
-  probably_taken: {lacks: No users found, status: 200}
-  free: {contains: No users found}
 znanylekarzpl:
   name: znanylekarz.pl
   url: https://www.znanylekarz.pl/{}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """the engine. transports fetch evidence, strategies judge it.
 a verdict needs positive evidence for exactly one of taken/free/probably_taken/probably_free - anything else is unknown."""
-import collections, pathlib, random, re, smtplib, socket, string, sys, requests, yaml
+import collections, os, pathlib, random, re, smtplib, socket, string, sys, requests, yaml
 
 Evidence = collections.namedtuple("Evidence", "status text url")
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0",
@@ -12,6 +12,8 @@ VERDICTS = ("taken", "free", "probably_taken", "probably_free")
 STRATEGIES, TRANSPORTS = {}, {}
 SITES = {k: v | {"group": f.stem[3:]} for f in sorted(pathlib.Path(__file__).parent.glob("sites/*.yaml"))
          for k, v in yaml.safe_load(f.read_text()).items()}
+for s in SITES.values():  # a checker that wants an api key ($KEY in its headers) stays manual until the key is in the environment
+    if lacking := [v for v in re.findall(r"\$(\w+)", str(s.get("headers", ""))) if not os.environ.get(v)]: s["manual"] = "needs " + lacking[0]
 
 
 def register(registry, key=None): return lambda f: registry.setdefault(key or f.__name__, f)
@@ -50,7 +52,7 @@ def lands(e, want): return bool(re.search(want, e.url))  # regex finds something
 @register(TRANSPORTS, "url")
 def http(s, name):
     reads = any(k in ("contains", "lacks", "matches") for v in VERDICTS for k in s.get(v, {}))  # no rule about the body = no download
-    with requests.request(s.get("method", "GET"), fill(s["url"], name), headers=HEADERS | s.get("headers", {}), timeout=(5, 10), stream=True,
+    with requests.request(s.get("method", "GET"), fill(s["url"], name), headers=HEADERS | {k: os.path.expandvars(v) for k, v in s.get("headers", {}).items()}, timeout=(5, 10), stream=True,
                           json=fill(s.get("json"), name), data=fill(s.get("data"), name), allow_redirects=s.get("follow", True)) as r:
         return Evidence(r.status_code, r.raw.read(3_000_000, decode_content=True).decode("utf-8", "replace") if reads else "", r.url)
 

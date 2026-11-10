@@ -15,6 +15,7 @@ env:
     DB: /data/untaken.db
   secret:
     - LOGLI_SECRET
+    # - PRODUCTHUNT_TOKEN
 volumes:
   - "untaken_data:/data"
 builder:

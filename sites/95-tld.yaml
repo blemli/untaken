@@ -152,3 +152,169 @@ co:
   strip: _
   length: 1-63
   known: google
+# new tlds: same registry lookup (rdap), the urls come from https://data.iana.org/rdap/dns.json
+pizza:
+  name: .pizza
+  url: https://rdap.identitydigital.services/rdap/domain/{}.pizza
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.pizza
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.pizza
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: nic
+xyz:
+  name: .xyz
+  url: https://rdap.centralnic.com/xyz/domain/{}.xyz
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.xyz
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.xyz
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+shop:
+  name: .shop
+  url: https://rdap.gmoregistry.net/rdap/domain/{}.shop
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.shop
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.shop
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+store:
+  name: .store
+  url: https://rdap.radix.host/rdap/domain/{}.store
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.store
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.store
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+online:
+  name: .online
+  url: https://rdap.radix.host/rdap/domain/{}.online
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.online
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.online
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+site:
+  name: .site
+  url: https://rdap.radix.host/rdap/domain/{}.site
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.site
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.site
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+tech:
+  name: .tech
+  url: https://rdap.radix.host/rdap/domain/{}.tech
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.tech
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.tech
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+cloud:
+  name: .cloud
+  url: https://rdap.registry.cloud/rdap/domain/{}.cloud
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.cloud
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.cloud
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+blog:
+  name: .blog
+  url: https://rdap.blog.fury.ca/rdap/domain/{}.blog
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.blog
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.blog
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+club:
+  name: .club
+  url: https://rdap.nic.club/domain/{}.club
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.club
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.club
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+art:
+  name: .art
+  url: https://rdap.centralnic.com/art/domain/{}.art
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.art
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.art
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+design:
+  name: .design
+  url: https://rdap.nic.design/domain/{}.design
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.design
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.design
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: google
+studio:
+  name: .studio
+  url: https://rdap.identitydigital.services/rdap/domain/{}.studio
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.studio
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.studio
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: nic
+music:
+  name: .music
+  url: https://rdap.registryservices.music/rdap/domain/{}.music
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.music
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.music
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: nic
+gmbh:
+  name: .gmbh
+  url: https://rdap.identitydigital.services/rdap/domain/{}.gmbh
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.gmbh
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.gmbh
+  chars: a-z0-9-
+  strip: _
+  length: 1-63
+  known: nic
