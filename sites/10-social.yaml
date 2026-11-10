@@ -114,11 +114,14 @@ twitch:
   length: 4-25
   known: twitch
 medium:
+  url: https://medium.com/feed/@{}  # the rss feed is made for machines - the profile page sits behind a cloudflare wall
   link: https://medium.com/@{}
   signup: https://medium.com/m/signin?operation=register
-  manual: cloudflare wall
+  taken: {status: 200, contains: "<rss"}
+  free: {status: 404}
   chars: a-z0-9._
   length: 1-30
+  known: medium
 substack:
   url: https://{}.substack.com/
   signup: https://substack.com/signup

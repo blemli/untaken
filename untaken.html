@@ -68,7 +68,6 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
 <aside>
   <h1><img src="/untaken.svg" alt="">untaken</h1>
   <div><span id="score"></span><br><span id="names"></span></div>
-  <label title="strict: only a verified green counts as free. off: orange (probably free) counts too"><input type="checkbox" id="strict"> strict mode</label>
   <div id="history"></div>
   <button id="clear" hidden>clear history</button>
 </aside>
@@ -92,7 +91,7 @@ const store = (k, v) => { try { return v === undefined ? JSON.parse(localStorage
 const site = Object.fromEntries(D.sites.map(s => [s.key, s]))
 const sets = {...D.presets, ...(D.popular.length ? {[`Popular in ${D.country}`]: {icon: 'star', sites: D.popular}} : {}), All: {icon: 'all', sites: Object.keys(site)}}
 const home = Object.values(D.presets).find(p => (p.region || []).includes(D.country)) || D.presets.Basic
-let names = [], live, results = {}, why = {}, on = new Set(store('on') || home.sites), strict = !!store('strict'), past = store('history') || []
+let names = [], live, results = {}, why = {}, on = new Set(store('on') || home.sites), past = store('history') || []
 let manual = Object.fromEntries(Object.entries(store('manual') || {}).filter(([, m]) => m[1] > Date.now()))  // what the user decided, kept for an hour
 
 const RANK = ['free', 'probably_free', 'checking', 'unknown', 'probably_taken', 'taken', 'invalid']
@@ -100,7 +99,7 @@ const id = () => names.join(', ')  // several names are one search: variants of 
 const best = k => names.map(n => [results[n]?.[k] || 'checking', n]).sort((a, b) => RANK.indexOf(a[0]) - RANK.indexOf(b[0]))[0] || ['idle', '']  // the best verdict on a site, and the name that got it
 const mine = k => manual[id() + ' ' + k]
 const state = k => mine(k)?.[0] || best(k)[0]
-const free = k => state(k) === 'free' || !strict && state(k) === 'probably_free'
+const free = k => /free$/.test(state(k))  // green and orange
 const wanted = () => D.sites.filter(s => on.has(s.key))
 const fill = (s, url) => url.replaceAll('{}', best(s.key)[1])  // with the name that won there
 
@@ -163,7 +162,6 @@ $('#grid').innerHTML = D.sites.map(s => (s.group === 'tld' && group !== (group =
   (s.icon ? `<svg><use href="/icons.svg#${s.key}"/></svg><small>${esc(s.name)}</small>` : `<b>${esc(s.name)}</b><small>&nbsp;</small>`) +
   `<nav><a target="_blank" rel="noopener" title="open">&nearr;</a><button data-set="free" title="i checked: free">&check;</button><button data-set="taken" title="i checked: taken">&cross;</button></nav></div>`).join('')
 $('#pills').innerHTML = Object.entries(sets).map(([n, p]) => `<button class="pill" data-set="${esc(n)}"><svg><use href="#i-${p.icon}"/></svg>${esc(n)}</button>`).join('')
-$('#strict').checked = strict
 
 $('#grid').onclick = e => {
   const t = e.target.closest('.tile'), b = e.target.closest('button')
@@ -180,7 +178,6 @@ $('#filter').onkeydown = e => {  // enter: add the only match
   const found = document.querySelectorAll('.tile:not([hidden])')
   if (e.key === 'Enter' && found.length === 1) { on.add(found[0].id.slice(2)); store('on', [...on]); e.target.value = ''; e.target.oninput(e); repaint() }
 }
-$('#strict').onchange = e => { store('strict', strict = e.target.checked); tally() }
 $('#history').onclick = e => { if (e.target.dataset.drop) { store('history', past = past.filter(h => h.name !== e.target.dataset.drop)); tally() } }
 $('#clear').onclick = () => { store('history', past = []); tally() }
 $('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
