@@ -119,7 +119,7 @@ if __name__ == "__main__":  # ./check.py github [name] -> show the evidence; ./c
     if len(sys.argv) > 1:
         key, name = sys.argv[1], (sys.argv[2:] or [None])[0]
         for n in [name] if name else [str(SITES[key]["known"]), nobody(key)]:
-            e = evidence(SITES[key], n) if not why(key, n) and not SITES[key].get("manual") else Evidence("-", why(key, n), "")
+            e = evidence(SITES[key], shaped(key, n)) if not why(key, n) and not SITES[key].get("manual") else Evidence("-", why(key, n), "")
             print(f"{n}: {probe(key, n)}  [{e.status}] {e.url}\n  {e.text[:300]!r}")
     else:
         import concurrent.futures
