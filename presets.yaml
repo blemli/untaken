@@ -3,7 +3,7 @@
 Swiss Basic:
   icon: swiss
   region: [CH, LI]
-  sites: [x, instagram, tiktok, github, galaxus, ricardo, ebay, shopify, steam, producthunt, zefix, ch]
+  sites: [x, instagram, tiktok, github, ricardo, ebay, shopify, steam, producthunt, zefix, ch]
 Basic:
   icon: globe
   sites: [x, instagram, tiktok, youtube, github, gmail, com]

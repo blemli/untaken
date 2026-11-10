@@ -30,12 +30,6 @@ ricardo:
   manual: captcha wall
   chars: a-z0-9_.-
   length: 3-30
-galaxus:
-  link: https://www.galaxus.ch/en/user/{}
-  signup: https://www.galaxus.ch/en/registration
-  manual: bot wall
-  chars: a-z0-9_.-
-  length: 3-30
 etsy:
   link: https://www.etsy.com/shop/{}
   signup: https://www.etsy.com/sell
