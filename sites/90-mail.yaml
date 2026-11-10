@@ -8,3 +8,12 @@ gmail:
   chars: a-z0-9.
   length: 6-30
   known: contact
+hey:
+  name: HEY World
+  url: https://world.hey.com/{}
+  signup: https://www.hey.com/
+  taken: {status: 200, lands: "world\\.hey\\.com/{}$"}
+  probably_free: {lands: "www\\.hey\\.com/world"}  # a hey.com address can exist without a world page
+  chars: a-z0-9._-
+  length: 2-40
+  known: dhh

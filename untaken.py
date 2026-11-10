@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import concurrent.futures as futures, itertools, logging, os, pathlib, re, sqlite3, threading, time
+import concurrent.futures as futures, hashlib, itertools, logging, os, pathlib, re, sqlite3, threading, time
 import flask, flask_limiter, flask_limiter.util as util, geoip2fast, jinja2.utils, werkzeug.middleware.proxy_fix as proxy_fix, yaml
 import check, logli
 
@@ -13,6 +13,7 @@ pool, watch = futures.ThreadPoolExecutor(64), futures.ThreadPoolExecutor(16)
 geo = geoip2fast.GeoIP2Fast()
 PRESETS = yaml.safe_load((HERE / "presets.yaml").read_text())
 ICONS = set(re.findall(r'<symbol id="([^"]+)"', (HERE / "icons.svg").read_text()))
+SPRITE = "/icons.svg?" + hashlib.md5((HERE / "icons.svg").read_bytes()).hexdigest()[:8]  # browsers keep the sprite for a year, new icons get a new address
 LIVE = [k for k, s in check.SITES.items() if not s.get("manual")]
 DB = os.environ.get("DB", "untaken.db")
 health, ready, memo = {}, threading.Event(), {}  # memo: (site, name) -> (verdict, expires). the only place a searched name ever lives here: in ram, for an hour
@@ -85,7 +86,7 @@ def index():
               "icon": k in ICONS, "manual": s.get("manual")} for k, s in ((k, check.SITES[k]) for k in order)]
     presets = dict(sorted(PRESETS.items(), key=lambda p: where not in p[1].get("region", [])))  # the local one first
     popular = [k for k in order if n.get("*", (0, 0))[0] >= 20 and n.get(k, (0, 0))[0] * 2 >= n["*"][0]]  # what half of this country's searches (min 20) care about
-    data = {"sites": sites, "presets": presets, "country": where, "popular": popular}
+    data = {"sites": sites, "presets": presets, "country": where, "popular": popular, "sprite": SPRITE}
     return (HERE / "untaken.html").read_text().replace("/*DATA*/null", jinja2.utils.htmlsafe_json_dumps(data))
 
 
@@ -111,7 +112,7 @@ def red(): return {"red": [k for k, ok in health.items() if not ok], "green": su
 
 
 @app.route("/icons.svg")
-def icons(): return flask.send_from_directory(app.root_path, "icons.svg", max_age=86400)
+def icons(): return flask.send_from_directory(app.root_path, "icons.svg", max_age=31536000)
 
 
 @app.route("/favicon.svg")

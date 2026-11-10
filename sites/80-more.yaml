@@ -30,40 +30,12 @@ aparat:
   known: jadi
   taken: {status: 200}
   free: {status: 404}
-atcoder:
-  name: Atcoder
-  url: https://atcoder.jp/users/{}
-  signup: https://atcoder.jp/
-  known: ksun48
-  taken: {status: 200}
-  free: {status: 404}
-awsskillsprofile:
-  name: AWS Skills Profile
-  url: https://skillsprofile.skillbuilder.aws/user/{}/
-  signup: https://skillsprofile.skillbuilder.aws
-  known: mayank04pant
-  taken: {contains: '{}', lacks: 'shareProfileAccepted":false', status: 200}
-  free: {contains: 'shareProfileAccepted":false'}
-biggerpockets:
-  name: BiggerPockets
-  url: https://www.biggerpockets.com/users/{}
-  signup: https://www.biggerpockets.com/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
 blogger:
   name: Blogger
   url: https://{}.blogspot.com
   signup: https://www.blogger.com/
   known: blue
   valid: ^[a-zA-Z][a-zA-Z0-9_-]*$
-  taken: {status: 200}
-  free: {status: 404}
-bookcrossing:
-  name: Bookcrossing
-  url: https://www.bookcrossing.com/mybookshelf/{}/
-  signup: https://www.bookcrossing.com/
-  known: blue
   taken: {status: 200}
   free: {status: 404}
 carrd:
@@ -83,27 +55,6 @@ cgtrader:
   valid: ^[^.]*?$
   taken: {status: 200}
   free: {status: 404}
-chaos:
-  name: Chaos
-  url: https://chaos.social/@{}
-  signup: https://chaos.social/
-  known: ordnung
-  taken: {status: 200}
-  free: {status: 404}
-chaossocial:
-  name: chaos.social
-  url: https://chaos.social/@{}
-  signup: https://chaos.social/
-  known: rixx
-  taken: {status: 200}
-  free: {status: 404}
-clubhouse:
-  name: Clubhouse
-  url: https://www.clubhouse.com/@{}
-  signup: https://www.clubhouse.com
-  known: waniathar
-  taken: {status: 200}
-  free: {status: 404}
 cnet:
   name: CNET
   url: https://www.cnet.com/profiles/{}/
@@ -119,13 +70,6 @@ codecademy:
   known: blue
   taken: {contains: '{}', lacks: This profile could not be found, status: 200}
   free: {contains: This profile could not be found}
-cplusplus:
-  name: Cplusplus
-  url: https://cplusplus.com/user/{}
-  signup: https://cplusplus.com
-  known: mbozzi
-  taken: {contains: '{}', lacks: <title>404 Page Not Found</title>, status: 200}
-  free: {contains: <title>404 Page Not Found</title>}
 credly:
   name: Credly
   url: https://www.credly.com/users/{}
@@ -156,33 +100,10 @@ dcinside:
   known: anrbrb
   taken: {status: 200}
   free: {status: 404}
-dealabs:
-  name: Dealabs
-  url: https://www.dealabs.com/profile/{}
-  signup: https://www.dealabs.com/
-  known: blue
-  chars: a-z0-9
-  length: 4-16
-  taken: {contains: '{}', lacks: La page que vous essayez, status: 200}
-  free: {contains: La page que vous essayez}
 disqus:
   name: Disqus
   url: https://disqus.com/{}
   signup: https://disqus.com/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
-exophase:
-  name: exophase
-  url: https://www.exophase.com/user/{}/
-  signup: https://www.exophase.com/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
-fl:
-  name: fl
-  url: https://www.fl.ru/users/{}
-  signup: https://www.fl.ru/
   known: blue
   taken: {status: 200}
   free: {status: 404}
@@ -257,21 +178,6 @@ giphy:
   known: red
   taken: {contains: '{}', lacks: <title> GIFs - Find &amp; Share on GIPHY</title>, status: 200}
   free: {contains: <title> GIFs - Find &amp; Share on GIPHY</title>}
-gitbook:
-  name: GitBook
-  url: https://{}.gitbook.io/
-  signup: https://gitbook.com/
-  known: gitbook
-  valid: ^[\w@-]+?$
-  taken: {status: 200}
-  free: {status: 404}
-gitea:
-  name: Gitea
-  url: https://gitea.com/{}
-  signup: https://gitea.com/
-  known: xorm
-  taken: {status: 200}
-  free: {status: 404}
 gitee:
   name: Gitee
   url: https://gitee.com/{}
@@ -330,18 +236,13 @@ hackmd:
   known: blue
   taken: {status: 200}
   free: {status: 404}
-hackster:
-  name: hackster
-  url: https://www.hackster.io/{}
-  signup: https://www.hackster.io
+ifttt:
+  name: IFTTT
+  url: https://www.ifttt.com/p/{}
+  signup: https://www.ifttt.com/
   known: blue
-  taken: {status: 200}
-  free: {status: 404}
-hackthebox:
-  name: HackTheBox
-  url: https://forum.hackthebox.com/u/{}
-  signup: https://forum.hackthebox.com/
-  known: angar
+  chars: A-Za-z0-9
+  length: 3-35
   taken: {status: 200}
   free: {status: 404}
 imgur:
@@ -374,6 +275,14 @@ itemfix:
   known: blue
   taken: {contains: '{}', lacks: '<title>ItemFix - Channel: </title>', status: 200}
   free: {contains: '<title>ItemFix - Channel: </title>'}
+jimdo:
+  name: Jimdo
+  url: https://{}.jimdosite.com
+  signup: https://jimdosite.com/
+  known: jenny
+  valid: ^[\w@-]+?$
+  taken: {status: 200}
+  free: {status: 404}
 kaggle:
   name: Kaggle
   url: https://www.kaggle.com/{}
@@ -388,13 +297,6 @@ kongregate:
   known: blue
   headers: {Accept: text/html}
   valid: ^[a-zA-Z][a-zA-Z0-9_-]*$
-  taken: {status: 200}
-  free: {status: 404}
-kwork:
-  name: kwork
-  url: https://kwork.ru/user/{}
-  signup: https://www.kwork.ru/
-  known: blue
   taken: {status: 200}
   free: {status: 404}
 laracast:
@@ -438,21 +340,6 @@ memrise:
   url: https://www.memrise.com/user/{}/
   signup: https://www.memrise.com/
   known: blue
-  taken: {status: 200}
-  free: {status: 404}
-minds:
-  name: minds
-  url: https://www.minds.com/api/v3/register/validate?username={}
-  link: https://www.minds.com/{}/
-  signup: https://www.minds.com
-  known: john
-  probably_taken: {lacks: '"valid":true', status: 200}
-  free: {contains: '"valid":true'}
-mstdnsocial:
-  name: mstdn.social
-  url: https://mstdn.social/@{}
-  signup: https://mstdn.social/
-  known: magiclike
   taken: {status: 200}
   free: {status: 404}
 myanimelist:
@@ -511,14 +398,6 @@ nitrotype:
   known: jianclash
   taken: {contains: '{}', lacks: <title>Nitro Type | Competitive Typing Game | Race Your Friends</title>, status: 200}
   free: {contains: <title>Nitro Type | Competitive Typing Game | Race Your Friends</title>}
-nnru:
-  name: nnRU
-  url: https://{}.www.nn.ru/
-  signup: https://www.nn.ru/
-  known: blue
-  valid: ^[\w@-]+?$
-  taken: {status: 200}
-  free: {status: 404}
 note:
   name: note
   url: https://note.com/{}
@@ -562,13 +441,6 @@ pikabu:
   known: blue
   taken: {status: 200}
   free: {status: 404}
-pixelfedsocial:
-  name: pixelfed.social
-  url: https://pixelfed.social/{}/
-  signup: https://pixelfed.social
-  known: pylapp
-  taken: {status: 200}
-  free: {status: 404}
 plurk:
   name: Plurk
   url: https://www.plurk.com/{}
@@ -580,13 +452,6 @@ pokemonshowdown:
   name: Pokemon Showdown
   url: https://pokemonshowdown.com/users/{}
   signup: https://pokemonshowdown.com
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
-promodj:
-  name: PromoDJ
-  url: http://promodj.com/{}
-  signup: http://promodj.com/
   known: blue
   taken: {status: 200}
   free: {status: 404}
@@ -648,13 +513,6 @@ strava:
   valid: ^[^.]*?$
   taken: {status: 200}
   free: {status: 404}
-tellonymme:
-  name: Tellonym.me
-  url: https://tellonym.me/{}
-  signup: https://tellonym.me/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
 tenor:
   name: Tenor
   url: https://tenor.com/users/{}
@@ -664,14 +522,6 @@ tenor:
   length: 2-32
   taken: {status: 200}
   free: {status: 404}
-tetrio:
-  name: TETR.IO
-  url: https://ch.tetr.io/api/users/{}
-  link: https://ch.tetr.io/u/{}
-  signup: https://tetr.io
-  known: osk
-  taken: {contains: '{}', lacks: No such user!, status: 200}
-  free: {contains: No such user!}
 threads:
   name: threads
   url: https://www.threads.net/@{}
@@ -711,25 +561,11 @@ trello:
   known: blue
   taken: {contains: '{}', lacks: model not found, status: 200}
   free: {contains: model not found}
-typeracer:
-  name: Typeracer
-  url: https://data.typeracer.com/pit/profile?user={}
-  signup: https://typeracer.com
-  known: blue
-  taken: {contains: '{}', lacks: Profile Not Found, status: 200}
-  free: {contains: Profile Not Found}
 untappd:
   name: Untappd
   url: https://untappd.com/user/{}
   signup: https://untappd.com/
   known: untappd
-  taken: {status: 200}
-  free: {status: 404}
-velog:
-  name: Velog
-  url: https://velog.io/@{}/posts
-  signup: https://velog.io/
-  known: qlgks1
   taken: {status: 200}
   free: {status: 404}
 venmo:
@@ -762,14 +598,6 @@ warframemarket:
   link: https://warframe.market/profile/{}
   signup: https://warframe.market/
   known: kaiallalone
-  taken: {status: 200}
-  free: {status: 404}
-webnode:
-  name: WebNode
-  url: https://{}.webnode.cz/
-  signup: https://www.webnode.cz/
-  known: radkabalcarova
-  valid: ^[\w@-]+?$
   taken: {status: 200}
   free: {status: 404}
 weebly:
@@ -808,22 +636,6 @@ wix:
   signup: https://wix.com/
   known: support
   valid: ^[\w@-]+?$
-  taken: {status: 200}
-  free: {status: 404}
-wordnik:
-  name: Wordnik
-  url: https://www.wordnik.com/users/{}
-  signup: https://www.wordnik.com/
-  known: blue
-  chars: a-zA-Z0-9_.+-
-  length: 1-40
-  taken: {contains: '{}', lacks: Page Not Found, status: 200}
-  free: {contains: Page Not Found}
-writeas:
-  name: write.as
-  url: https://write.as/{}
-  signup: https://write.as
-  known: pylapp
   taken: {status: 200}
   free: {status: 404}
 wykop:

@@ -1,0 +1,83 @@
+# the world outside the usual suspects
+vk:
+  name: VK
+  url: https://vk.ru/{}  # vk.com hangs up on servers, vk's own .ru address answers
+  link: https://vk.com/{}
+  signup: https://vk.com/join
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_.
+  length: 5-32
+  known: durov
+ok:
+  name: OK.ru
+  icon: odnoklassniki
+  url: https://ok.ru/{}
+  signup: https://ok.ru/dk?st.cmd=anonymRegistrationEnterPhone
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_.
+  length: 2-50
+  known: ok
+rutube:
+  url: https://rutube.ru/u/{}/
+  signup: https://rutube.ru/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 3-30
+  known: rutube
+qiita:
+  url: https://qiita.com/api/v2/users/{}
+  link: https://qiita.com/{}
+  signup: https://qiita.com/signup
+  taken: {status: 200, contains: '"id"'}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 3-32
+  known: qiita
+zenn:
+  url: https://zenn.dev/api/users/{}
+  link: https://zenn.dev/{}
+  signup: https://zenn.dev/enter
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 3-15
+  known: catnose99
+brunch:
+  icon: kakao
+  url: https://brunch.co.kr/@{}
+  signup: https://brunch.co.kr/signin
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 3-30
+  known: brunch
+sharechat:
+  url: https://sharechat.com/profile/{}
+  signup: https://sharechat.com/
+  taken: {status: 200}
+  free: {status: 410}
+  chars: a-z0-9_
+  length: 3-30
+  known: sharechat
+v2ex:
+  url: https://www.v2ex.com/member/{}
+  signup: https://www.v2ex.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9
+  length: 3-20
+  known: livid
+mstdnjp:
+  name: mstdn.jp
+  icon: mastodon
+  url: https://mstdn.jp/api/v1/accounts/lookup?acct={}
+  link: https://mstdn.jp/@{}
+  signup: https://mstdn.jp/auth/sign_up
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 1-30
+  known: mstdn_jp

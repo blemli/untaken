@@ -135,3 +135,20 @@ keybase:
   chars: a-z0-9_
   length: 2-16
   known: chris
+gitea:
+  url: https://gitea.com/api/v1/users/{}
+  link: https://gitea.com/{}
+  signup: https://gitea.com/user/sign_up
+  taken: {status: 200, contains: '"login"'}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 1-39
+  known: gitea
+gitbook:
+  url: https://{}.gitbook.io/
+  signup: https://app.gitbook.com/join
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 2-60
+  known: gitbook

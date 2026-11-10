@@ -6,3 +6,29 @@ republik:
   chars: a-z0-9.
   length: 1-40
   known: cseibt
+freitag:
+  name: der Freitag
+  url: https://www.freitag.de/autoren/{}
+  signup: https://www.freitag.de/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 3-40
+  known: der-freitag
+mediapart:
+  url: https://blogs.mediapart.fr/{}
+  signup: https://www.mediapart.fr/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 3-40
+  known: edwy-plenel
+dailykos:
+  name: Daily Kos
+  url: https://www.dailykos.com/user/{}
+  signup: https://www.dailykos.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 3-40
+  known: kos

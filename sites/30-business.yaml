@@ -50,3 +50,11 @@ alternativeto:
   manual: cloudflare wall
   chars: a-z0-9-
   length: 1-60
+xing:
+  url: https://www.xing.com/pages/{}
+  signup: https://www.xing.com/pages/new/company
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 2-60
+  known: xing

@@ -11,7 +11,7 @@
 @media (prefers-color-scheme: dark) { :root { --fg: #eee; --bg: #111; --line: #333 } }
 * { box-sizing: border-box }
 body { margin: 0; display: flex; min-height: 100vh; font: 14px/1.4 ui-monospace, Menlo, Consolas, monospace; color: var(--fg); background: var(--bg) }
-aside { flex: none; width: 230px; height: 100vh; position: sticky; top: 0; padding: 16px; border-right: 3px solid var(--fg); display: flex; flex-direction: column; gap: 12px }
+aside { flex: none; width: 230px; height: 100vh; position: sticky; top: 0; padding: 16px 16px 64px; border-right: 3px solid var(--fg); display: flex; flex-direction: column; gap: 12px }
 main { flex: 1; min-width: 0; padding: 16px 24px 48px }
 h1 { margin: 0; font-size: 22px; display: flex; align-items: center; gap: 8px }
 h1 img { width: 32px; height: 32px }
@@ -21,6 +21,8 @@ button, input, .button { font: inherit; color: inherit; background: none; border
 button:hover, .button:hover, .pill.active { background: var(--fg); color: var(--bg) }
 form { display: flex; gap: 8px; max-width: 640px }
 #filter { cursor: text; width: 220px }
+#feedback { position: fixed; left: 16px; bottom: 16px; width: 198px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg) }
+#feedback svg { width: 16px; height: 16px }
 #q { flex: 1; min-width: 0; font-size: 22px; padding: 8px 12px; cursor: text }
 #pills, #actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 }
 .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px }
@@ -53,7 +55,7 @@ form { display: flex; gap: 8px; max-width: 640px }
 @keyframes pulse { 50% { opacity: .15 } }
 @media (prefers-reduced-motion: reduce) { .checking > :not(nav) { animation: none; opacity: .4 } }
 footer { margin-top: 24px; font-size: 11px; opacity: .6 }
-@media (max-width: 760px) { body { flex-direction: column } aside { width: auto; height: auto; position: static; border-right: 0; border-bottom: 3px solid var(--fg) } #history, #clear, #names, .wide { display: none } }
+@media (max-width: 760px) { body { flex-direction: column } aside { width: auto; height: auto; position: static; padding: 16px; border-right: 0; border-bottom: 3px solid var(--fg) } #history, #clear, #names, #signup { display: none } #feedback { position: static; width: auto; margin: 0 24px 24px } }
 </style>
 </head>
 <body>
@@ -63,6 +65,8 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
   <symbol id="i-music" viewBox="0 0 24 24"><path d="M10 3h10v5h-7v10a4 4 0 1 1-3-3.9z"/></symbol>
   <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 6l-6 6 6 6 1.5-1.5L5 12l4.5-4.5zm8 0l-1.5 1.5L19 12l-4.5 4.5L16 18l6-6z"/></symbol>
   <symbol id="i-news" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M3 4h18v16H3zm3 3v5h6V7zm8 0v2h4V7zm0 3v2h4v-2zm-8 4v1.500h12V14zm0 2.500V18h12v-1.500z"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 7h10a5 5 0 0 1 0 10H7A5 5 0 0 1 7 7zm0 2.500V11H5.500v2H7v1.500h2V13h1.500v-2H9V9.500zm8.500.500a1.200 1.200 0 1 0 0 2.400 1.200 1.200 0 0 0 0-2.400zm2 2.600a1.200 1.200 0 1 0 0 2.400 1.200 1.200 0 0 0 0-2.400z"/></symbol>
+  <symbol id="i-world" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 2.100V11H4.100A8 8 0 0 1 11 4.100zm2 0A8 8 0 0 1 19.900 11H13zM4.100 13H11v6.900A8 8 0 0 1 4.100 13zM13 13h6.900A8 8 0 0 1 13 19.900z"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5-6.5-4.5L5.500 21l2-7.5L2 9h7z"/></symbol>
   <symbol id="i-all" viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></symbol>
 </svg>
@@ -77,7 +81,6 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
   <div id="pills"></div>
   <div id="actions">
     <button id="signup" title="opens one tab per free site - your browser will ask once to allow pop-ups">sign up to all</button>
-    <a class="button" href="https://github.com/blemli/untaken/issues/new" target="_blank" rel="noopener">give feedback<span class="wide"> on github</span></a>
     <input id="filter" type="search" placeholder="find a site&hellip;" autocomplete="off" title="type to find a site among all of them, click it (or press enter) to switch it on">
     <span id="status"></span>
   </div>
@@ -85,6 +88,7 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
   <footer>several names, separated by commas, count as variants: a site is fine if one of them is free there &middot; the pills only filter what is shown &middot; click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
   your searches are saved only in your browser, never on our server - except for the result cache, which lives in memory for one hour. the name is of course sent to the sites being checked.</footer>
 </main>
+<a class="button" id="feedback" href="https://github.com/blemli/untaken/issues/new" target="_blank" rel="noopener" title="give feedback on github"><svg><use/></svg>give feedback</a>
 <script>
 const D = /*DATA*/null, $ = (q, e = document) => e.querySelector(q), HOUR = 36e5
 const esc = s => String(s).replace(/[&<>"]/g, c => `&#${c.charCodeAt()};`)
@@ -167,7 +171,7 @@ async function run(list) {  // one name, or variants separated by commas: checke
 let group
 $('#grid').innerHTML = D.sites.map(s => (s.group === 'tld' && group !== (group = s.group) ? `<h3>domains</h3>` : '') +
   `<div class="tile idle" id="t-${s.key}" tabindex="0" title="${esc(s.name)}${s.manual ? ` - ${esc(s.manual)}: open it and decide yourself` : ''}">` +
-  (s.icon ? `<svg><use href="/icons.svg#${s.key}"/></svg><small>${esc(s.name)}</small>` : `<b>${esc(s.name)}</b><small>&nbsp;</small>`) +
+  (s.icon ? `<svg><use href="${D.sprite}#${s.key}"/></svg><small>${esc(s.name)}</small>` : `<b>${esc(s.name)}</b><small>&nbsp;</small>`) +
   `<nav><a target="_blank" rel="noopener" title="open">&nearr;</a><button data-set="free" title="i checked: free">&check;</button><button data-set="taken" title="i checked: taken">&cross;</button></nav></div>`).join('')
 $('#pills').innerHTML = Object.entries(sets).map(([n, p]) => `<button class="pill" data-set="${esc(n)}"><svg><use href="#i-${p.icon}"/></svg>${esc(n)}</button>`).join('')
 
@@ -190,6 +194,7 @@ $('#history').onclick = e => { if (e.target.dataset.drop) { store('history', pas
 $('#clear').onclick = () => { store('history', past = []); tally() }
 $('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
 $('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? run($('#q').value) : location.hash = q }
+$('#feedback use').setAttribute('href', D.sprite + '#github')
 sift()
 onhashchange = () => run(decodeURIComponent(location.hash.slice(1)))
 onhashchange()
