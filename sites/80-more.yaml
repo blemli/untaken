@@ -30,14 +30,6 @@ aparat:
   known: jadi
   taken: {status: 200}
   free: {status: 404}
-artstation:
-  name: ArtStation
-  url: https://www.artstation.com/users/{}.json
-  link: https://www.artstation.com/{}
-  signup: https://www.artstation.com/
-  known: blue
-  taken: {status: 200}
-  free: {status: 404}
 atcoder:
   name: Atcoder
   url: https://atcoder.jp/users/{}
@@ -81,13 +73,6 @@ carrd:
   known: blue
   chars: a-zA-Z0-9_-
   length: 3-50
-  taken: {status: 200}
-  free: {status: 404}
-cashapp:
-  name: CashApp
-  url: https://cash.app/${}
-  signup: https://cash.app
-  known: hotdiggitydog
   taken: {status: 200}
   free: {status: 404}
 cgtrader:
@@ -687,13 +672,6 @@ tetrio:
   known: osk
   taken: {contains: '{}', lacks: No such user!, status: 200}
   free: {contains: No such user!}
-themeforest:
-  name: ThemeForest
-  url: https://themeforest.net/user/{}
-  signup: https://themeforest.net/
-  known: user
-  taken: {status: 200}
-  free: {status: 404}
 threads:
   name: threads
   url: https://www.threads.net/@{}

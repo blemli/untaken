@@ -25,13 +25,11 @@ ebay:
   chars: a-z0-9._-
   length: 6-64
 ricardo:
-  url: https://www.ricardo.ch/de/shop/{}/
+  link: https://www.ricardo.ch/de/shop/{}/
   signup: https://www.ricardo.ch/de/registration/
-  taken: {status: 200}
-  free: {status: 404}
+  manual: captcha wall
   chars: a-z0-9_.-
   length: 3-30
-  known: ricardo
 galaxus:
   link: https://www.galaxus.ch/en/user/{}
   signup: https://www.galaxus.ch/en/registration

@@ -67,6 +67,6 @@ Pills live in [presets.yaml](presets.yaml), `region: [CH]` makes one the default
 ## caveats
 
 - "free" on a profile page means *nobody shows up there*. Reserved, banned or deleted names can still be refused at sign-up - where that is known the tile is orange.
-- instagram, reddit, ebay, galaxus, etsy, medium and producthunt wall off servers: always yellow.
+- instagram, reddit, ebay, galaxus, ricardo, etsy, medium and alternativeto wall off servers: always yellow. producthunt is yellow until `PRODUCTHUNT_TOKEN` is set (see `.kamal/secrets`).
 - "sign up to all" opens many tabs - the browser asks once to allow pop-ups.
 - twint and tutti have no public names, so there is nothing to check.
