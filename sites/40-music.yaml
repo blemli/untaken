@@ -44,7 +44,7 @@ audius:
 bandlab:
   url: https://www.bandlab.com/api/v1.3/users/{}
   link: https://www.bandlab.com/{}
-  signup: https://www.bandlab.com/sign-up
+  signup: https://www.bandlab.com/sign-up?name={}  # prefills the name
   taken: {status: 200, contains: '"username"'}
   free: {status: 404}
   chars: a-z0-9_

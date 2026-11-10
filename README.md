@@ -4,8 +4,9 @@
 
 <img src="untaken.svg" alt="untaken" width="420pt">
 
-Type a name (or, some-variants, of_it: a site is fine if one of them is free there) and watch 200 tiles: green is free, red is taken, orange / light red is *probably*,
-yellow could not be checked (open it, decide yourself with ✓ ✗), purple says what the site does not allow.
+Type a name (or, some-variants, of_it: a site is fine if one of them is free there) and watch 200 tiles: green is free, red is taken
+
+Orange: probably, Purple: Disallowed, Yellow: Check yourself
 
 ## run
 
@@ -30,7 +31,7 @@ A checker is a few lines of yaml in [sites/](sites/). That is the whole pull req
 ```yaml
 github:                             # the key is also the icon slug on simpleicons.org
   url: https://github.com/{}        # {} = the name
-  signup: https://github.com/signup # where "sign up to all" goes
+  signup: https://github.com/signup # where "sign up to all" goes. a {} prefills the name where the site takes it
   taken: {status: 200}              # evidence for taken
   free: {status: 404}               # evidence for free
   chars: a-z0-9-                    # what a name may be made of - else the tile turns purple and says so
@@ -69,4 +70,3 @@ Pills live in [presets.yaml](presets.yaml), `region: [CH]` makes one the default
 - "free" on a profile page means *nobody shows up there*. Reserved, banned or deleted names can still be refused at sign-up - where that is known the tile is orange.
 - instagram, reddit, ebay, galaxus, ricardo, etsy, medium and alternativeto wall off servers: always yellow. producthunt is yellow until `PRODUCTHUNT_TOKEN` is set (see `.kamal/secrets`).
 - "sign up to all" opens many tabs - the browser asks once to allow pop-ups.
-- twint and tutti have no public names, so there is nothing to check.

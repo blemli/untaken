@@ -26,7 +26,7 @@ ebay:
   length: 6-64
 ricardo:
   link: https://www.ricardo.ch/de/shop/{}/
-  signup: https://www.ricardo.ch/de/registration/
+  signup: https://www.ricardo.ch/de/
   manual: captcha wall
   chars: a-z0-9_.-
   length: 3-30

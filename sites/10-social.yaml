@@ -130,7 +130,7 @@ substack:
 wordpress:
   url: https://public-api.wordpress.com/rest/v1.1/sites/{}.wordpress.com
   link: https://{}.wordpress.com/
-  signup: https://wordpress.com/start
+  signup: https://wordpress.com/typo/?subdomain={}  # offers to create exactly this site
   taken: {status: [200, 403]}
   free: {status: 404, contains: unknown_blog}
   chars: a-z0-9
@@ -138,7 +138,7 @@ wordpress:
   known: longreads
 linktree:
   url: https://linktr.ee/{}
-  signup: https://linktr.ee/register
+  signup: https://linktr.ee/register?username={}  # prefills the name
   taken: {status: 200}
   free: {status: 404}
   chars: a-z0-9._
@@ -181,7 +181,7 @@ vimeo:
   known: staff
 flickr:
   url: https://www.flickr.com/people/{}/
-  signup: https://www.flickr.com/sign-up
+  signup: https://identity.flickr.com/sign-up
   taken: {status: 200}
   free: {status: 404}
   chars: a-z0-9_-
@@ -189,7 +189,7 @@ flickr:
   known: nasa
 dribbble:
   url: https://dribbble.com/{}
-  signup: https://dribbble.com/signup/new
+  signup: https://dribbble.com/signup
   taken: {status: 200}
   free: {status: 404}
   chars: a-z0-9_-
