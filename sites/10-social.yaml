@@ -145,9 +145,8 @@ linktree:
   length: 3-30
   known: linktree
 producthunt:
-  url: https://api.producthunt.com/v2/api/graphql  # the site itself walls off servers, the official api does not
-  method: POST
-  headers: {Authorization: Bearer $PRODUCTHUNT_TOKEN}  # developer token: producthunt.com/v2/oauth/applications
+  url: https://api.producthunt.com/v2/api/graphql  # the site walls off servers, its api does not - but wants a developer token
+  method: POST  # token: producthunt.com/v2/oauth/applications -> env PRODUCTHUNT_TOKEN (bound to this host in check.py), manual until then
   json: {query: '{user(username:"{}"){username}}'}
   link: https://www.producthunt.com/@{}
   signup: https://www.producthunt.com/

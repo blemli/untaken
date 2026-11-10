@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """the engine. transports fetch evidence, strategies judge it.
 a verdict needs positive evidence for exactly one of taken/free/probably_taken/probably_free - anything else is unknown."""
-import collections, os, pathlib, random, re, smtplib, socket, string, sys, requests, yaml
+import collections, os, pathlib, random, re, smtplib, socket, string, sys, urllib.parse, requests, yaml
 
 Evidence = collections.namedtuple("Evidence", "status text url")
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0",
@@ -9,11 +9,17 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/201001
 NAME = re.compile(r"[a-z0-9]([a-z0-9._-]{0,62}[a-z0-9])?")  # global rule, every site narrows it with chars, length (and valid)
 CHARS, LENGTH = "a-z0-9_-", "1-40"
 VERDICTS = ("taken", "free", "probably_taken", "probably_free")
+TOKENS = {"api.producthunt.com": "PRODUCTHUNT_TOKEN"}  # api keys are bound to their host here, in code: no yaml can send a secret anywhere else
 STRATEGIES, TRANSPORTS = {}, {}
 SITES = {k: v | {"group": f.stem[3:]} for f in sorted(pathlib.Path(__file__).parent.glob("sites/*.yaml"))
          for k, v in yaml.safe_load(f.read_text()).items()}
-for s in SITES.values():  # a checker that wants an api key ($KEY in its headers) stays manual until the key is in the environment
-    if lacking := [v for v in re.findall(r"\$(\w+)", str(s.get("headers", ""))) if not os.environ.get(v)]: s["manual"] = "needs " + lacking[0]
+
+
+def token(url): return os.environ.get(TOKENS.get(urllib.parse.urlparse(url).hostname, ""), "")
+
+
+for s in SITES.values():  # a checker whose host wants an api key stays manual until the key is in the environment
+    if urllib.parse.urlparse(s.get("url", "")).hostname in TOKENS and not token(s["url"]): s["manual"] = "needs " + TOKENS[urllib.parse.urlparse(s["url"]).hostname]
 
 
 def register(registry, key=None): return lambda f: registry.setdefault(key or f.__name__, f)
@@ -52,7 +58,8 @@ def lands(e, want): return bool(re.search(want, e.url))  # regex finds something
 @register(TRANSPORTS, "url")
 def http(s, name):
     reads = any(k in ("contains", "lacks", "matches") for v in VERDICTS for k in s.get(v, {}))  # no rule about the body = no download
-    with requests.request(s.get("method", "GET"), fill(s["url"], name), headers=HEADERS | {k: os.path.expandvars(v) for k, v in s.get("headers", {}).items()}, timeout=(5, 10), stream=True,
+    key = {"Authorization": "Bearer " + token(s["url"])} if token(s["url"]) else {}
+    with requests.request(s.get("method", "GET"), fill(s["url"], name), headers=HEADERS | s.get("headers", {}) | key, timeout=(5, 10), stream=True,
                           json=fill(s.get("json"), name), data=fill(s.get("data"), name), allow_redirects=s.get("follow", True)) as r:
         return Evidence(r.status_code, r.raw.read(3_000_000, decode_content=True).decode("utf-8", "replace") if reads else "", r.url)
 
