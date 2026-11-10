@@ -4,9 +4,13 @@
 
 <img src="untaken.svg" alt="untaken" width="420pt">
 
-Type a name (or, some-variants, of_it: a site is fine if one of them is free there) and watch 200 tiles: green is free, red is taken
+Type a name and watch 200 tiles: 🟢green is free, 🔴red is taken
 
-Orange: probably, Purple: Disallowed, Yellow: Check yourself
+🟠Orange: probably, 
+
+🟣Purple: Disallowed,
+
+🟡Yellow: Check yourself and save with the ✓ and ✗ buttons.
 
 ## run
 
@@ -42,7 +46,7 @@ github:                             # the key is also the icon slug on simpleico
 - **strategies** judge the evidence: `status`, `contains`, `lacks`, `matches` (regex), `lands` (regex on the final url). One more = one function in [check.py](check.py).
 - **verdicts**: `taken`, `free`, and for softer evidence `probably_taken`, `probably_free`.
 - **transports**: `url` (+ `method`, `headers`, `json`, `data`, `follow: false`), `whois` (+ `query`), `smtp` (+ `rcpt`).
-- optional: `name`, `icon`, `link` (what humans open), `strip` (characters the site drops, domains drop `_`), `valid` + `hint` (regex for odd shapes), `fallback` (a second source), `manual: reason` (no server gets in - the user decides).
+- optional: `name`, `icon`, `link` (what humans open), `valid` + `hint` (regex for odd shapes), `fallback` (a second source), `manual: reason` (no server gets in - the user decides).
 
 ```bash
 ./check.py github            # show the evidence for the known and a random name

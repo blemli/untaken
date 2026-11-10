@@ -1,4 +1,4 @@
-# domains: the registry itself answers (rdap, or whois where there is no rdap). a domain has no _ : my_name is checked as myname
+# domains: the registry itself answers (rdap, or whois where there is no rdap)
 ch:
   name: .ch
   url: https://rdap.nic.ch/domain/{}.ch
@@ -7,7 +7,6 @@ ch:
   link: https://{}.ch
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.ch
   chars: a-z0-9-
-  strip: _
   length: 3-63
   known: google
   fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
@@ -22,7 +21,6 @@ li:
   link: https://{}.li
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.li
   chars: a-z0-9-
-  strip: _
   length: 3-63
   known: google
   fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
@@ -38,7 +36,6 @@ swiss:
   link: https://{}.swiss
   signup: https://www.nic.swiss/
   chars: a-z0-9-
-  strip: _
   length: 3-63
   known: nic
 com:
@@ -49,7 +46,6 @@ com:
   link: https://{}.com
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.com
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 net:
@@ -60,7 +56,6 @@ net:
   link: https://{}.net
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.net
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 org:
@@ -71,7 +66,6 @@ org:
   link: https://{}.org
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.org
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 eu:
@@ -83,7 +77,6 @@ eu:
   link: https://{}.eu
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.eu
   chars: a-z0-9-
-  strip: _
   length: 3-63
   known: google
 de:
@@ -94,7 +87,6 @@ de:
   link: https://{}.de
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.de
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 io:
@@ -105,7 +97,6 @@ io:
   link: https://{}.io
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.io
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 dev:
@@ -116,7 +107,6 @@ dev:
   link: https://{}.dev
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.dev
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 app:
@@ -127,7 +117,6 @@ app:
   link: https://{}.app
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.app
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 ai:
@@ -138,7 +127,6 @@ ai:
   link: https://{}.ai
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.ai
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 co:
@@ -149,7 +137,6 @@ co:
   link: https://{}.co
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.co
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 # new tlds: same registry lookup (rdap), the urls come from https://data.iana.org/rdap/dns.json
@@ -161,7 +148,6 @@ pizza:
   link: https://{}.pizza
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.pizza
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: nic
 xyz:
@@ -172,7 +158,6 @@ xyz:
   link: https://{}.xyz
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.xyz
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 shop:
@@ -183,7 +168,6 @@ shop:
   link: https://{}.shop
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.shop
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 store:
@@ -194,7 +178,6 @@ store:
   link: https://{}.store
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.store
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 online:
@@ -205,7 +188,6 @@ online:
   link: https://{}.online
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.online
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 site:
@@ -216,7 +198,6 @@ site:
   link: https://{}.site
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.site
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 tech:
@@ -227,7 +208,6 @@ tech:
   link: https://{}.tech
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.tech
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 cloud:
@@ -238,7 +218,6 @@ cloud:
   link: https://{}.cloud
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.cloud
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 blog:
@@ -249,7 +228,6 @@ blog:
   link: https://{}.blog
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.blog
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 club:
@@ -260,7 +238,6 @@ club:
   link: https://{}.club
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.club
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 art:
@@ -271,7 +248,6 @@ art:
   link: https://{}.art
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.art
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 design:
@@ -282,7 +258,6 @@ design:
   link: https://{}.design
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.design
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: google
 studio:
@@ -293,7 +268,6 @@ studio:
   link: https://{}.studio
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.studio
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: nic
 music:
@@ -304,7 +278,6 @@ music:
   link: https://{}.music
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.music
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: nic
 gmbh:
@@ -315,6 +288,5 @@ gmbh:
   link: https://{}.gmbh
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.gmbh
   chars: a-z0-9-
-  strip: _
   length: 1-63
   known: nic

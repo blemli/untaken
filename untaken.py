@@ -82,7 +82,7 @@ def index():
     n = likes(where)
     order = sorted(check.SITES, key=lambda k: (check.SITES[k]["group"] == "tld", *(-x for x in n.get(k, (0, 0)))))  # what this country wants first, then the world, domains last
     sites = [{"key": k, "name": s.get("name", k), "group": s["group"], "link": s.get("link") or s["url"], "signup": s.get("signup"),
-              "icon": k in ICONS, "manual": s.get("manual"), "strip": s.get("strip")} for k, s in ((k, check.SITES[k]) for k in order)]
+              "icon": k in ICONS, "manual": s.get("manual")} for k, s in ((k, check.SITES[k]) for k in order)]
     presets = dict(sorted(PRESETS.items(), key=lambda p: where not in p[1].get("region", [])))  # the local one first
     popular = [k for k in order if n.get("*", (0, 0))[0] >= 20 and n.get(k, (0, 0))[0] * 2 >= n["*"][0]]  # what half of this country's searches (min 20) care about
     data = {"sites": sites, "presets": presets, "country": where, "popular": popular}

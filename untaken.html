@@ -102,7 +102,7 @@ const mine = k => manual[id() + ' ' + k]
 const state = k => mine(k)?.[0] || best(k)[0]
 const free = k => state(k) === 'free' || !strict && state(k) === 'probably_free'
 const wanted = () => D.sites.filter(s => on.has(s.key))
-const fill = (s, url) => url.replaceAll('{}', s.strip ? best(s.key)[1].replace(new RegExp(`[${s.strip}]`, 'g'), '') : best(s.key)[1])  // with the name that won there. domains drop the _
+const fill = (s, url) => url.replaceAll('{}', best(s.key)[1])  // with the name that won there
 
 function paint(k) {
   const [verdict, n] = best(k)
