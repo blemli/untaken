@@ -44,6 +44,19 @@ pypi:
   chars: a-z0-9._-
   length: 1-64
   known: requests
+pubdev:
+  name: pub.dev
+  icon: flutter
+  url: https://pub.dev/api/packages/{}
+  link: https://pub.dev/packages/{}
+  signup: https://pub.dev/
+  taken: {status: 200, contains: '"name"'}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 1-64
+  valid: "[a-z_].*"
+  hint: starts with a letter
+  known: http
 dockerhub:
   icon: docker
   url: https://hub.docker.com/v2/users/{}/

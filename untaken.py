@@ -67,7 +67,7 @@ def country():
 def learn(where, on):
     """count which sites a region keeps switched on. no names, no ips."""
     with db() as c:
-        c.executemany("insert into likes values(?,?,1) on conflict(country, site) do update set n=n+1", [(where, s) for s in {"*"} | set(on) & set(check.SITES)])
+        c.executemany("insert into likes values(?,?,1) on conflict(country, site) do update set n=n+1", [(where, s) for s in {"*"} | on & set(check.SITES)])
 
 
 def likes(where):
@@ -92,12 +92,13 @@ def index():
 @app.route("/check", methods=["POST"])  # post: a name in the url would end up in access logs
 @limiter.limit("20/minute, 200/hour")
 def search():
-    q = flask.request.get_json(force=True, silent=True) or {}
-    name, on = str(q.get("name", "")).strip().lower()[:64], [k for k in q.get("on", []) if isinstance(k, str)]
-    learn(country(), on)
+    q = flask.request.get_json(force=True, silent=True)
+    q = q if isinstance(q, dict) else {}
+    name, (on, skip) = str(q.get("name", "")).strip().lower()[:64], ({k for k in q.get(f, []) if isinstance(k, str)} if isinstance(q.get(f, []), list) else set() for f in ("on", "skip"))
+    if not q.get("more"): learn(country(), on)  # a list of variants counts as one search
 
     def stream():
-        jobs = {pool.submit(verdict, key, name): key for key in sorted(check.SITES, key=lambda k: k not in on)}  # the wanted ones first
+        jobs = {pool.submit(verdict, key, name): key for key in sorted(set(check.SITES) - skip, key=lambda k: k not in on)}  # the wanted ones first, skip = already free for another variant
         try:
             for job in futures.as_completed(jobs, timeout=25): yield f"data: {jobs[job]} {'unknown' if job.exception() else job.result()}\n\n"
         except futures.TimeoutError: pass  # stragglers: the page turns them yellow

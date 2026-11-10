@@ -73,7 +73,7 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
   <button id="clear" hidden>clear history</button>
 </aside>
 <main>
-  <form id="search"><input id="q" placeholder="name, or, several" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="64"><button>check</button></form>
+  <form id="search"><input id="q" placeholder="name, or-variants, or_variants" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="64"><button>check</button></form>
   <div id="pills"></div>
   <div id="actions">
     <button id="signup" title="opens one tab per free site - your browser will ask once to allow pop-ups">sign up to all</button>
@@ -82,7 +82,7 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
     <span id="status"></span>
   </div>
   <div id="grid"></div>
-  <footer>click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
+  <footer>several names, separated by commas, count as variants: a site is fine if one of them is free there &middot; click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
   your searches are saved only in your browser, never on our server - except for the result cache, which lives in memory for one hour. the name is of course sent to the sites being checked.</footer>
 </main>
 <script>
@@ -92,68 +92,66 @@ const store = (k, v) => { try { return v === undefined ? JSON.parse(localStorage
 const site = Object.fromEntries(D.sites.map(s => [s.key, s]))
 const sets = {...D.presets, ...(D.popular.length ? {[`Popular in ${D.country}`]: {icon: 'star', sites: D.popular}} : {}), All: {icon: 'all', sites: Object.keys(site)}}
 const home = Object.values(D.presets).find(p => (p.region || []).includes(D.country)) || D.presets.Basic
-let name = '', live, round = 0, states = {}, why = {}, on = new Set(store('on') || home.sites), strict = !!store('strict'), past = store('history') || []
+let names = [], live, results = {}, why = {}, on = new Set(store('on') || home.sites), strict = !!store('strict'), past = store('history') || []
 let manual = Object.fromEntries(Object.entries(store('manual') || {}).filter(([, m]) => m[1] > Date.now()))  // what the user decided, kept for an hour
 
-const mine = k => manual[name + ' ' + k]
-const state = k => mine(k)?.[0] || states[k] || (name ? 'checking' : 'idle')
+const RANK = ['free', 'probably_free', 'checking', 'unknown', 'probably_taken', 'taken', 'invalid']
+const id = () => names.join(', ')  // several names are one search: variants of a name. a site is fine if one of them is free there
+const best = k => names.map(n => [results[n]?.[k] || 'checking', n]).sort((a, b) => RANK.indexOf(a[0]) - RANK.indexOf(b[0]))[0] || ['idle', '']  // the best verdict on a site, and the name that got it
+const mine = k => manual[id() + ' ' + k]
+const state = k => mine(k)?.[0] || best(k)[0]
 const free = k => state(k) === 'free' || !strict && state(k) === 'probably_free'
 const wanted = () => D.sites.filter(s => on.has(s.key))
-const fill = (s, url) => url.replaceAll('{}', s.strip ? name.replace(new RegExp(`[${s.strip}]`, 'g'), '') : name)  // domains drop the _
+const fill = (s, url) => url.replaceAll('{}', s.strip ? best(s.key)[1].replace(new RegExp(`[${s.strip}]`, 'g'), '') : best(s.key)[1])  // with the name that won there. domains drop the _
 
 function paint(k) {
-  $('#t-' + k).className = `tile ${state(k)}${on.has(k) ? '' : ' off'}${mine(k) ? ' manual' : ''}${/unknown|probably/.test(states[k]) ? ' open' : ''}`
+  const [verdict, n] = best(k)
+  $('#t-' + k).className = `tile ${state(k)}${on.has(k) ? '' : ' off'}${mine(k) ? ' manual' : ''}${/unknown|probably/.test(verdict) ? ' open' : ''}`
   $('#t-' + k + ' a').href = fill(site[k], site[k].link)
-  $('#t-' + k + ' small').textContent = states[k] === 'invalid' ? why[k] : site[k].icon ? site[k].name : '\u00a0'  // purple says what is not allowed
+  $('#t-' + k + ' small').textContent = verdict === 'invalid' ? why[n]?.[k] : names.length > 1 && /free/.test(verdict) ? n : site[k].icon ? site[k].name : ' '  // purple: what is not allowed. a list: which name is free
 }
 
 function tally() {
   const all = wanted(), x = all.filter(s => free(s.key)).length, busy = all.some(s => state(s.key) === 'checking')
-  if (name && !busy) store('history', past = [{name, x, y: all.length}, ...past.filter(h => h.name !== name)].slice(0, 50))
-  $('#score').textContent = name ? `${x}/${all.length} free` : ''
+  if (names.length && !busy) store('history', past = [{name: id(), x, y: all.length}, ...past.filter(h => h.name !== id())].slice(0, 50))
+  $('#score').textContent = names.length ? `${x}/${all.length} free` : ''
   $('#names').textContent = past.length ? `${past.filter(h => h.y && h.x === h.y).length}/${past.length} names free` : ''
   $('#history').innerHTML = past.map(h => `<div class="${h.y && h.x === h.y ? 'free' : ''}"><a href="#${encodeURIComponent(h.name)}"><span>${esc(h.name)}</span><span>${h.x}/${h.y}</span></a>` +
     `<button data-drop="${esc(h.name)}" title="drop from the stack">&times;</button></div>`).join('')
   $('#clear').hidden = !past.length
-  $('#signup').textContent = `sign up to all${name && x ? ` (${x})` : ''}`
+  $('#signup').textContent = `sign up to all${x ? ` (${x})` : ''}`
   for (const b of document.querySelectorAll('.pill')) b.classList.toggle('active', sets[b.dataset.set].sites.length === on.size && sets[b.dataset.set].sites.every(k => on.has(k)))
 }
 
 function repaint() { Object.keys(site).forEach(paint); tally() }
 
 function finish(note) {
-  for (const k in site) states[k] ||= 'unknown'
+  for (const n of names) for (const k in site) (results[n] ||= {})[k] ||= 'unknown'
   $('#status').textContent = note || ''
   repaint()
 }
 
-async function all(list) {  // several names, comma separated: one after the other, each lands in the stack
-  const names = [...new Set(list.toLowerCase().split(',').map(n => n.trim()).filter(Boolean))].slice(0, 20), mine = ++round
-  $('#q').value = names.join(', ')
-  if (!names.length) return run('')
-  for (const n of names) if (mine === round) await run(n)
-  if (mine === round && names.length > 1) $('#status').textContent ||= `${names.length} names checked - pick one from the stack.`
-}
-
-async function run(next) {
+async function run(list) {  // one name, or variants separated by commas: checked one after the other, a site that is free for one is not asked again
   live?.abort()
-  name = next
-  states = {}, why = {}, $('#status').textContent = ''
+  names = [...new Set(list.toLowerCase().split(',').map(n => n.trim()).filter(Boolean))].slice(0, 10)
+  $('#q').value = id(), results = {}, why = {}, $('#status').textContent = ''
   repaint()
-  if (!name) return
   const mine = live = new AbortController()
-  try {  // a POST, read as it streams: the name never shows up in a url
-    const r = await fetch('/check', {method: 'POST', body: JSON.stringify({name, on: [...on]}), signal: mine.signal})
-    if (!r.ok) throw r.status
-    for (let reader = r.body.pipeThrough(new TextDecoderStream()).getReader(), rest = '';;) {
-      const {value, done} = await reader.read()
-      if (done) break
-      const lines = (rest + value).split('\n')
-      rest = lines.pop()
-      for (const [, k, s, reason] of lines.map(l => l.match(/^data: (\S+) (\S+) ?(.*)/) || [])) if (site[k]) states[k] = s, why[k] = reason, paint(k)
-      tally()
+  try {
+    for (const n of names) {
+      const got = results[n] = {}, said = why[n] = {}, skip = Object.keys(site).filter(k => best(k)[0] === 'free')
+      const r = await fetch('/check', {method: 'POST', body: JSON.stringify({name: n, on: [...on], skip, more: n !== names[0]}), signal: mine.signal})  // a POST, read as it streams: the name never shows up in a url
+      if (!r.ok) throw r.status
+      for (let reader = r.body.pipeThrough(new TextDecoderStream()).getReader(), rest = '';;) {
+        const {value, done} = await reader.read()
+        if (done) break
+        const lines = (rest + value).split('\n')
+        rest = lines.pop()
+        for (const [, k, s, reason] of lines.map(l => l.match(/^data: (\S+) (\S+) ?(.*)/) || [])) if (site[k]) got[k] = s, said[k] = reason, paint(k)
+        tally()
+      }
     }
-    finish()
+    if (mine === live) finish()
   } catch (e) {
     if (mine === live && e.name !== 'AbortError') finish(e === 429 ? 'too many searches - give it a minute.' : 'could not finish - yellow tiles are unchecked.')
   }
@@ -170,8 +168,8 @@ $('#strict').checked = strict
 $('#grid').onclick = e => {
   const t = e.target.closest('.tile'), b = e.target.closest('button')
   if (!t || e.target.closest('a')) return
-  const k = t.id.slice(2), id = name + ' ' + k
-  if (b && name) { if (mine(k)?.[0] === b.dataset.set) delete manual[id]; else manual[id] = [b.dataset.set, Date.now() + HOUR]; store('manual', manual) }
+  const k = t.id.slice(2), key = id() + ' ' + k
+  if (b && names.length) { if (mine(k)?.[0] === b.dataset.set) delete manual[key]; else manual[key] = [b.dataset.set, Date.now() + HOUR]; store('manual', manual) }
   else if (!b) { on.has(k) ? on.delete(k) : on.add(k); store('on', [...on]) }
   paint(k), tally()
 }
@@ -186,8 +184,8 @@ $('#strict').onchange = e => { store('strict', strict = e.target.checked); tally
 $('#history').onclick = e => { if (e.target.dataset.drop) { store('history', past = past.filter(h => h.name !== e.target.dataset.drop)); tally() } }
 $('#clear').onclick = () => { store('history', past = []); tally() }
 $('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
-$('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? all($('#q').value) : location.hash = q }
-onhashchange = () => all(decodeURIComponent(location.hash.slice(1)))
+$('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? run($('#q').value) : location.hash = q }
+onhashchange = () => run(decodeURIComponent(location.hash.slice(1)))
 onhashchange()
 </script>
 </body>

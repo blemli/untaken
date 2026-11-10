@@ -4,7 +4,7 @@
 
 <img src="untaken.svg" alt="untaken" width="420pt">
 
-Type a name (or, several) and watch 200 tiles: green is free, red is taken, orange / light red is *probably*,
+Type a name (or, some-variants, of_it: a site is fine if one of them is free there) and watch 200 tiles: green is free, red is taken, orange / light red is *probably*,
 yellow could not be checked (open it, decide yourself with ✓ ✗), purple says what the site does not allow.
 
 ## run

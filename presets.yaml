@@ -12,4 +12,4 @@ Music:
   sites: [soundcloud, bandcamp, mixcloud, audius, discogs, bandlab, youtube, tiktok, instagram, linktree, music]
 Dev:
   icon: code
-  sites: [github, gitlab, npm, pypi, dockerhub, crates, huggingface, devto, dev, io, com]
+  sites: [github, gitlab, npm, pypi, pubdev, dockerhub, crates, huggingface, devto, dev, io, com]
