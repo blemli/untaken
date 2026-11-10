@@ -1,3 +1,9 @@
+spotify:
+  link: https://open.spotify.com/search/{}/artists  # artist names are not unique and nobody picks a username there: look if the name is in use
+  signup: https://artists.spotify.com/
+  manual: no public lookup
+  chars: a-z0-9._-
+  length: 1-40
 soundcloud:
   url: https://soundcloud.com/{}
   signup: https://soundcloud.com/signin
