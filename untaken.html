@@ -77,11 +77,11 @@ footer { margin-top: 24px; font-size: 11px; opacity: .6 }
   <div id="actions">
     <button id="signup" title="opens one tab per free site - your browser will ask once to allow pop-ups">sign up to all</button>
     <a class="button" href="https://github.com/blemli/untaken/issues/new" target="_blank" rel="noopener">give feedback on github</a>
-    <input id="filter" type="search" placeholder="find a site to add&hellip;" autocomplete="off" title="type to find a site, click it (or press enter) to add it">
+    <input id="filter" type="search" placeholder="find a site&hellip;" autocomplete="off" title="type to find a site among all of them, click it (or press enter) to switch it on">
     <span id="status"></span>
   </div>
   <div id="grid"></div>
-  <footer>several names, separated by commas, count as variants: a site is fine if one of them is free there &middot; click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
+  <footer>several names, separated by commas, count as variants: a site is fine if one of them is free there &middot; the pills only filter what is shown &middot; click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; brown: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
   your searches are saved only in your browser, never on our server - except for the result cache, which lives in memory for one hour. the name is of course sent to the sites being checked.</footer>
 </main>
 <script>
@@ -92,6 +92,7 @@ const site = Object.fromEntries(D.sites.map(s => [s.key, s]))
 const sets = {...D.presets, ...(D.popular.length ? {[`Popular in ${D.country}`]: {icon: 'star', sites: D.popular}} : {}), All: {icon: 'all', sites: Object.keys(site)}}
 const home = Object.values(D.presets).find(p => (p.region || []).includes(D.country)) || D.presets.Basic
 let names = [], live, results = {}, why = {}, on = new Set(store('on') || home.sites), past = store('history') || []
+let view = sets[store('view')] ? store('view') : 'All'  // the pill that filters the grid
 let manual = Object.fromEntries(Object.entries(store('manual') || {}).filter(([, m]) => m[1] > Date.now()))  // what the user decided, kept for an hour
 
 const RANK = ['free', 'probably_free', 'checking', 'unknown', 'probably_taken', 'taken', 'invalid']
@@ -119,7 +120,13 @@ function tally() {
     `<button data-drop="${esc(h.name)}" title="drop from the stack">&times;</button></div>`).join('')
   $('#clear').hidden = !past.length
   $('#signup').textContent = `sign up to all${x ? ` (${x})` : ''}`
-  for (const b of document.querySelectorAll('.pill')) b.classList.toggle('active', sets[b.dataset.set].sites.length === on.size && sets[b.dataset.set].sites.every(k => on.has(k)))
+}
+
+function sift() {  // pills and the find box only filter what is shown - what counts is what you switched on
+  const text = $('#filter').value.trim().toLowerCase()
+  for (const s of D.sites) $('#t-' + s.key).hidden = text ? !(s.key + ' ' + s.name).toLowerCase().includes(text) : !sets[view].sites.includes(s.key)
+  for (const h of document.querySelectorAll('#grid h3')) h.hidden = !D.sites.some(s => s.group === 'tld' && !$('#t-' + s.key).hidden)
+  for (const b of document.querySelectorAll('.pill')) b.classList.toggle('active', !text && b.dataset.set === view)
 }
 
 function repaint() { Object.keys(site).forEach(paint); tally() }
@@ -172,16 +179,17 @@ $('#grid').onclick = e => {
   paint(k), tally()
 }
 $('#grid').onkeydown = e => { if (e.key === 'Enter' && e.target.matches('.tile')) e.target.click() }
-$('#pills').onclick = e => { const b = e.target.closest('.pill'); if (b) { on = new Set(sets[b.dataset.set].sites); store('on', [...on]); repaint() } }
-$('#filter').oninput = e => { for (const s of D.sites) $('#t-' + s.key).hidden = !(s.key + ' ' + s.name).toLowerCase().includes(e.target.value.trim().toLowerCase()) }
-$('#filter').onkeydown = e => {  // enter: add the only match
+$('#pills').onclick = e => { const b = e.target.closest('.pill'); if (b) { store('view', view = b.dataset.set === view ? 'All' : b.dataset.set); $('#filter').value = ''; sift() } }
+$('#filter').oninput = sift
+$('#filter').onkeydown = e => {  // enter: switch the only match on
   const found = document.querySelectorAll('.tile:not([hidden])')
-  if (e.key === 'Enter' && found.length === 1) { on.add(found[0].id.slice(2)); store('on', [...on]); e.target.value = ''; e.target.oninput(e); repaint() }
+  if (e.key === 'Enter' && found.length === 1) { on.add(found[0].id.slice(2)); store('on', [...on]); e.target.value = ''; sift(); repaint() }
 }
 $('#history').onclick = e => { if (e.target.dataset.drop) { store('history', past = past.filter(h => h.name !== e.target.dataset.drop)); tally() } }
 $('#clear').onclick = () => { store('history', past = []); tally() }
 $('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
 $('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? run($('#q').value) : location.hash = q }
+sift()
 onhashchange = () => run(decodeURIComponent(location.hash.slice(1)))
 onhashchange()
 </script>
