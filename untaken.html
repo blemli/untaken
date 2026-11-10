@@ -97,10 +97,11 @@ const mine = k => manual[name + ' ' + k]
 const state = k => mine(k)?.[0] || states[k] || (name ? 'checking' : 'idle')
 const free = k => state(k) === 'free' || !strict && state(k) === 'probably_free'
 const wanted = () => D.sites.filter(s => on.has(s.key))
+const fill = (s, url) => url.replaceAll('{}', s.strip ? name.replace(new RegExp(`[${s.strip}]`, 'g'), '') : name)  // domains drop the _
 
 function paint(k) {
   $('#t-' + k).className = `tile ${state(k)}${on.has(k) ? '' : ' off'}${mine(k) ? ' manual' : ''}${/unknown|probably/.test(states[k]) ? ' open' : ''}`
-  $('#t-' + k + ' a').href = site[k].link.replaceAll('{}', name)
+  $('#t-' + k + ' a').href = fill(site[k], site[k].link)
   $('#t-' + k + ' small').textContent = states[k] === 'invalid' ? why[k] : site[k].icon ? site[k].name : '\u00a0'  // purple says what is not allowed
 }
 
@@ -180,7 +181,7 @@ $('#filter').onkeydown = e => {  // enter: add the only match
 }
 $('#strict').onchange = e => { store('strict', strict = e.target.checked); tally() }
 $('#clear').onclick = () => { store('history', past = []); tally() }
-$('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(s.signup.replaceAll('{}', name), '_blank'))
+$('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
 $('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? all($('#q').value) : location.hash = q }
 onhashchange = () => all(decodeURIComponent(location.hash.slice(1)))
 onhashchange()

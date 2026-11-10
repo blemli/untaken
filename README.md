@@ -41,7 +41,7 @@ github:                             # the key is also the icon slug on simpleico
 - **strategies** judge the evidence: `status`, `contains`, `lacks`, `matches` (regex), `lands` (regex on the final url). One more = one function in [check.py](check.py).
 - **verdicts**: `taken`, `free`, and for softer evidence `probably_taken`, `probably_free`.
 - **transports**: `url` (+ `method`, `headers`, `json`, `data`, `follow: false`), `whois` (+ `query`), `smtp` (+ `rcpt`).
-- optional: `name`, `icon`, `link` (what humans open), `valid` + `hint` (regex for odd shapes), `fallback` (a second source), `manual: reason` (no server gets in - the user decides).
+- optional: `name`, `icon`, `link` (what humans open), `strip` (characters the site drops, domains drop `_`), `valid` + `hint` (regex for odd shapes), `fallback` (a second source), `manual: reason` (no server gets in - the user decides).
 
 ```bash
 ./check.py github            # show the evidence for the known and a random name

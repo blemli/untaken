@@ -1,4 +1,4 @@
-# domains: the registry itself answers (rdap, or whois where there is no rdap)
+# domains: the registry itself answers (rdap, or whois where there is no rdap). a domain has no _ : my_name is checked as myname
 ch:
   name: .ch
   url: https://rdap.nic.ch/domain/{}.ch
@@ -7,6 +7,7 @@ ch:
   link: https://{}.ch
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.ch
   chars: a-z0-9-
+  strip: _
   length: 3-63
   known: google
   fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
@@ -21,6 +22,7 @@ li:
   link: https://{}.li
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.li
   chars: a-z0-9-
+  strip: _
   length: 3-63
   known: google
   fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
@@ -36,6 +38,7 @@ swiss:
   link: https://{}.swiss
   signup: https://www.nic.swiss/
   chars: a-z0-9-
+  strip: _
   length: 3-63
   known: nic
 com:
@@ -46,6 +49,7 @@ com:
   link: https://{}.com
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.com
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 net:
@@ -56,6 +60,7 @@ net:
   link: https://{}.net
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.net
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 org:
@@ -66,6 +71,7 @@ org:
   link: https://{}.org
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.org
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 eu:
@@ -77,6 +83,7 @@ eu:
   link: https://{}.eu
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.eu
   chars: a-z0-9-
+  strip: _
   length: 3-63
   known: google
 de:
@@ -87,6 +94,7 @@ de:
   link: https://{}.de
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.de
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 io:
@@ -97,6 +105,7 @@ io:
   link: https://{}.io
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.io
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 dev:
@@ -107,6 +116,7 @@ dev:
   link: https://{}.dev
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.dev
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 app:
@@ -117,6 +127,7 @@ app:
   link: https://{}.app
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.app
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 ai:
@@ -127,6 +138,7 @@ ai:
   link: https://{}.ai
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.ai
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google
 co:
@@ -137,5 +149,6 @@ co:
   link: https://{}.co
   signup: https://www.namecheap.com/domains/registration/results/?domain={}.co
   chars: a-z0-9-
+  strip: _
   length: 1-63
   known: google

@@ -74,9 +74,12 @@ def smtp(s, name):
 def evidence(s, name): return TRANSPORTS[next(k for k in s if k in TRANSPORTS)](s, name)
 
 
+def shaped(key, name): return re.sub(f"[{SITES[key].get('strip', '')}]+", "", name) if SITES[key].get("strip") else name  # strip: what the site simply drops
+
+
 def why(key, name):
     """what the site does not allow about this name, in words for the purple tile ("" = fine)"""
-    s = SITES[key]
+    s, name = SITES[key], shaped(key, name)
     low, high = map(int, str(s.get("length", LENGTH)).split("-"))
     if bad := sorted(set(re.sub(f"[{s.get('chars', CHARS)}]", "", name))): return "no " + " ".join("space" if c == " " else c for c in bad)
     if not low <= len(name) <= high: return f"{low}-{high} chars"
@@ -92,6 +95,7 @@ def judge(s, e, name):
 def probe(key, name):
     """one live check: taken | free | probably_taken | probably_free | unknown | invalid"""
     if why(key, name): return "invalid"
+    name = shaped(key, name)
     for s in (SITES[key], SITES[key].get("fallback")):  # manual: no server can check this site, the user decides
         try:
             if s and not s.get("manual") and (v := judge(s, evidence(s, name), name)) != "unknown": return v
