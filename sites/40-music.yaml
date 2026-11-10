@@ -1,0 +1,52 @@
+soundcloud:
+  url: https://soundcloud.com/{}
+  signup: https://soundcloud.com/signin
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 3-25
+  known: soundcloud
+bandcamp:
+  url: https://{}.bandcamp.com/
+  signup: https://bandcamp.com/signup?new_domain={}
+  taken: {status: 200, lands: "^https://{}\\.bandcamp\\.com"}
+  free: {lands: "signup\\?new_domain="}
+  chars: a-z0-9-
+  length: 4-63
+  known: tycho
+mixcloud:
+  url: https://api.mixcloud.com/{}/
+  link: https://www.mixcloud.com/{}/
+  signup: https://www.mixcloud.com/
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404, contains: User does not exist}
+  chars: a-z0-9_-
+  length: 2-30
+  known: spartacus
+discogs:
+  url: https://api.discogs.com/users/{}
+  link: https://www.discogs.com/user/{}
+  signup: https://www.discogs.com/users/create
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 3-50
+  known: discogs
+audius:
+  url: https://api.audius.co/v1/users/handle/{}
+  link: https://audius.co/{}
+  signup: https://audius.co/signup
+  taken: {status: 200, contains: '"handle"'}
+  free: {status: 404}
+  chars: a-z0-9_.
+  length: 1-30
+  known: audius
+bandlab:
+  url: https://www.bandlab.com/api/v1.3/users/{}
+  link: https://www.bandlab.com/{}
+  signup: https://www.bandlab.com/sign-up
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 2-30
+  known: bandlab

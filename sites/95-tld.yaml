@@ -1,0 +1,141 @@
+# domains: the registry itself answers (rdap, or whois where there is no rdap)
+ch:
+  name: .ch
+  url: https://rdap.nic.ch/domain/{}.ch
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.ch
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.ch
+  chars: a-z0-9-
+  length: 3-63
+  known: google
+  fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
+    url: https://dns.google/resolve?name={}.ch&type=NS
+    taken: {contains: ['"Status":0', '"Answer"']}
+    probably_free: {contains: '"Status":3'}
+li:
+  name: .li
+  url: https://rdap.nic.li/domain/{}.li
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.li
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.li
+  chars: a-z0-9-
+  length: 3-63
+  known: google
+  fallback:  # switch limits its rdap quickly, then the dns answers. a domain without nameservers looks free there, hence probably
+    url: https://dns.google/resolve?name={}.li&type=NS
+    taken: {contains: ['"Status":0', '"Answer"']}
+    probably_free: {contains: '"Status":3'}
+swiss:
+  name: .swiss
+  whois: whois.nic.swiss
+  query: "{}.swiss"
+  taken: {contains: "Registry Domain ID"}
+  free: {contains: "no matching objects found"}
+  link: https://{}.swiss
+  signup: https://www.nic.swiss/
+  chars: a-z0-9-
+  length: 3-63
+  known: nic
+com:
+  name: .com
+  url: https://rdap.verisign.com/com/v1/domain/{}.com
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.com
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.com
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+net:
+  name: .net
+  url: https://rdap.verisign.com/net/v1/domain/{}.net
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.net
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.net
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+org:
+  name: .org
+  url: https://rdap.publicinterestregistry.org/rdap/domain/{}.org
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.org
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.org
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+eu:
+  name: .eu
+  whois: whois.eu
+  query: "{}.eu"
+  taken: {contains: "Registrant:"}
+  free: {contains: "Status: AVAILABLE"}
+  link: https://{}.eu
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.eu
+  chars: a-z0-9-
+  length: 3-63
+  known: google
+de:
+  name: .de
+  url: https://rdap.denic.de/domain/{}.de
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.de
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.de
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+io:
+  name: .io
+  url: https://rdap.identitydigital.services/rdap/domain/{}.io
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.io
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.io
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+dev:
+  name: .dev
+  url: https://pubapi.registry.google/rdap/domain/{}.dev
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.dev
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.dev
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+app:
+  name: .app
+  url: https://pubapi.registry.google/rdap/domain/{}.app
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.app
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.app
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+ai:
+  name: .ai
+  url: https://rdap.identitydigital.services/rdap/domain/{}.ai
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.ai
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.ai
+  chars: a-z0-9-
+  length: 1-63
+  known: google
+co:
+  name: .co
+  url: https://rdap.registry.co/co/domain/{}.co
+  taken: {status: 200, contains: ldhName}
+  free: {status: 404}
+  link: https://{}.co
+  signup: https://www.namecheap.com/domains/registration/results/?domain={}.co
+  chars: a-z0-9-
+  length: 1-63
+  known: google

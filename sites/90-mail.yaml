@@ -1,0 +1,10 @@
+gmail:
+  smtp: gmail-smtp-in.l.google.com
+  rcpt: "{}@gmail.com"
+  link: "mailto:{}@gmail.com"
+  signup: https://accounts.google.com/signup
+  taken: {status: [250, 552]}  # 552 = mailbox exists but is over quota
+  probably_free: {status: 550, contains: 5.1.1}  # google never hands out a deleted address again
+  chars: a-z0-9.
+  length: 6-30
+  known: contact

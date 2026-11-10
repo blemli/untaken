@@ -1,0 +1,45 @@
+steam:
+  url: https://steamcommunity.com/id/{}
+  signup: https://store.steampowered.com/join
+  taken: {contains: g_rgProfileData}
+  free: {contains: The specified profile could not be found}
+  chars: a-z0-9_-
+  length: 3-32
+  known: gabelogannewell
+minecraft:
+  url: https://api.mojang.com/users/profiles/minecraft/{}
+  link: https://namemc.com/profile/{}
+  signup: https://www.minecraft.net/
+  taken: {status: 200, contains: '"id"'}
+  probably_free: {status: 404}
+  chars: a-z0-9_
+  length: 3-16
+  known: notch
+chess:
+  icon: chessdotcom
+  url: https://api.chess.com/pub/player/{}
+  link: https://www.chess.com/member/{}
+  signup: https://www.chess.com/register
+  taken: {status: 200, contains: player_id}
+  free: {status: 404, contains: not found}
+  chars: a-z0-9_-
+  length: 3-25
+  known: hikaru
+lichess:
+  url: https://lichess.org/api/user/{}
+  link: https://lichess.org/@/{}
+  signup: https://lichess.org/signup
+  taken: {status: 200, contains: '"id":"{}"'}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 2-30
+  known: thibault
+itch:
+  icon: itchdotio
+  url: https://{}.itch.io/
+  signup: https://itch.io/register
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 2-25
+  known: leafo

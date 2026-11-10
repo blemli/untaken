@@ -1,0 +1,201 @@
+x:
+  url: https://api.x.com/i/users/username_available.json?username={}
+  link: https://x.com/{}
+  signup: https://x.com/i/flow/signup
+  taken: {matches: '"reason":"(taken|is_banned_word)"'}  # x's own signup check; banned = protected brand
+  free: {contains: '"reason":"available"'}
+  chars: a-z0-9_
+  length: 5-15
+  known: google
+instagram:
+  link: https://www.instagram.com/{}/
+  signup: https://www.instagram.com/accounts/emailsignup/
+  manual: login wall
+  chars: a-z0-9._
+  length: 1-30
+tiktok:
+  url: https://www.tiktok.com/@{}
+  signup: https://www.tiktok.com/signup
+  taken: {contains: '"uniqueId":"{}"'}
+  probably_free: {contains: '"statusCode":10221'}
+  chars: a-z0-9._
+  length: 2-24
+  known: tiktok
+youtube:
+  url: https://www.youtube.com/@{}
+  signup: https://www.youtube.com/account
+  headers: {Cookie: SOCS=CAI}
+  taken: {status: 200, lands: "youtube\\.com/@"}  # the cookie skips the eu consent page, which would land elsewhere
+  free: {status: 404}
+  chars: a-z0-9._-
+  length: 3-30
+  known: nasa
+linkedin:
+  url: https://www.linkedin.com/company/{}
+  signup: https://www.linkedin.com/company/setup/new/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 3-64
+  known: microsoft
+snapchat:
+  url: https://www.snapchat.com/add/{}
+  signup: https://accounts.snapchat.com/accounts/v2/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9._-
+  length: 3-15
+  valid: "[a-z].*"
+  hint: starts with a letter
+  known: nasa
+pinterest:
+  url: https://www.pinterest.com/{}/
+  signup: https://www.pinterest.com/business/create/
+  taken: {contains: '"username":"{}"'}
+  free: {contains: User not found}
+  chars: a-z0-9_
+  length: 3-30
+  known: pinterest
+reddit:
+  link: https://www.reddit.com/user/{}
+  signup: https://www.reddit.com/register/
+  manual: blocks servers
+  chars: a-z0-9_-
+  length: 3-20
+bluesky:
+  url: https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle={}.bsky.social
+  link: https://bsky.app/profile/{}.bsky.social
+  signup: https://bsky.app/
+  taken: {status: 200, contains: '"did"'}
+  free: {status: 400, contains: Unable to resolve handle}
+  chars: a-z0-9-
+  length: 3-18
+  known: jay
+mastodon:
+  url: https://mastodon.social/api/v1/accounts/lookup?acct={}
+  link: https://mastodon.social/@{}
+  signup: https://mastodon.social/auth/sign_up
+  taken: {status: 200, contains: '"username"'}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 1-30
+  known: mastodon
+telegram:
+  url: https://t.me/{}
+  signup: https://telegram.org/
+  taken: {contains: tgme_page_title}
+  probably_free: {contains: tgme_page_icon, lacks: tgme_page_title}
+  chars: a-z0-9_
+  length: 5-32
+  valid: "[a-z].*"
+  hint: starts with a letter
+  known: telegram
+discord:
+  url: https://discord.com/api/v9/unique-username/username-attempt-unauthed
+  method: POST
+  json: {username: "{}"}
+  link: https://discord.com/
+  signup: https://discord.com/register
+  taken: {contains: '"taken":true'}
+  free: {contains: '"taken":false'}
+  chars: a-z0-9_.
+  length: 2-32
+  known: john
+twitch:
+  url: https://gql.twitch.tv/gql
+  method: POST
+  headers: {Client-ID: kimne78kx3ncx6brgo4mv6wki5h1ko}
+  json: {query: 'query{user(login:"{}"){login}}'}
+  link: https://www.twitch.tv/{}
+  signup: https://www.twitch.tv/signup
+  taken: {contains: '"login":"{}"'}
+  probably_free: {contains: '"user":null'}
+  chars: a-z0-9_
+  length: 4-25
+  known: twitch
+medium:
+  link: https://medium.com/@{}
+  signup: https://medium.com/m/signin?operation=register
+  manual: cloudflare wall
+  chars: a-z0-9._
+  length: 1-30
+substack:
+  url: https://{}.substack.com/
+  signup: https://substack.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9
+  length: 1-63
+  known: platformer
+wordpress:
+  url: https://public-api.wordpress.com/rest/v1.1/sites/{}.wordpress.com
+  link: https://{}.wordpress.com/
+  signup: https://wordpress.com/start
+  taken: {status: [200, 403]}
+  free: {status: 404, contains: unknown_blog}
+  chars: a-z0-9
+  length: 4-50
+  known: longreads
+linktree:
+  url: https://linktr.ee/{}
+  signup: https://linktr.ee/register
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9._
+  length: 3-30
+  known: linktree
+producthunt:
+  link: https://www.producthunt.com/@{}
+  signup: https://www.producthunt.com/
+  manual: cloudflare wall
+  chars: a-z0-9_
+  length: 1-40
+patreon:
+  url: https://www.patreon.com/{}
+  signup: https://www.patreon.com/create
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 1-64
+  known: kurzgesagt
+kofi:
+  url: https://ko-fi.com/{}
+  signup: https://ko-fi.com/account/register
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 1-40
+  known: supportkofi
+vimeo:
+  url: https://vimeo.com/{}
+  signup: https://vimeo.com/join
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9
+  length: 1-40
+  known: staff
+flickr:
+  url: https://www.flickr.com/people/{}/
+  signup: https://www.flickr.com/sign-up
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 1-32
+  known: nasa
+dribbble:
+  url: https://dribbble.com/{}
+  signup: https://dribbble.com/signup/new
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_-
+  length: 2-20
+  known: dribbble
+gravatar:
+  url: https://gravatar.com/{}.json
+  link: https://gravatar.com/{}
+  signup: https://gravatar.com/
+  taken: {status: 200, contains: profileUrl}
+  free: {status: 404, contains: User not found}
+  chars: a-z0-9
+  length: 1-40
+  known: matt

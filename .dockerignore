@@ -1,0 +1,11 @@
+.git
+.venv
+.kamal
+.env
+__pycache__
+.pytest_cache
+*.sqlite
+*.db
+README.md
+gig
+.playwright-mcp

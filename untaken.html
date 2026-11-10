@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>untaken</title>
+<meta name="description" content="the name is the game: check a name on 200 sites at once">
+<link rel="icon" href="/favicon.svg">
+<style>
+:root { --fg: #000; --bg: #fff; --line: #ddd; --free: #0f9d3a; --taken: #e01b24; --probably_free: #ff7800; --probably_taken: #f58a90; --unknown: #f0c000; --invalid: #a208ba; color-scheme: light dark }
+@media (prefers-color-scheme: dark) { :root { --fg: #eee; --bg: #111; --line: #333 } }
+* { box-sizing: border-box }
+body { margin: 0; display: flex; min-height: 100vh; font: 14px/1.4 ui-monospace, Menlo, Consolas, monospace; color: var(--fg); background: var(--bg) }
+aside { flex: none; width: 230px; height: 100vh; position: sticky; top: 0; padding: 16px; border-right: 3px solid var(--fg); display: flex; flex-direction: column; gap: 12px }
+main { flex: 1; min-width: 0; padding: 16px 24px 48px }
+h1 { margin: 0; font-size: 22px; display: flex; align-items: center; gap: 8px }
+h1 img { width: 32px; height: 32px }
+h3 { grid-column: 1 / -1; margin: 12px 0 0; font-size: 11px; font-weight: normal; text-transform: uppercase; letter-spacing: 2px; opacity: .5 }
+svg { fill: currentColor }
+button, input, .button { font: inherit; color: inherit; background: none; border: 2px solid var(--fg); border-radius: 0; padding: 4px 10px; cursor: pointer; text-decoration: none }
+button:hover, .button:hover, .pill.active { background: var(--fg); color: var(--bg) }
+form { display: flex; gap: 8px; max-width: 640px }
+#filter { cursor: text; width: 220px }
+#q { flex: 1; min-width: 0; font-size: 22px; padding: 8px 12px; cursor: text }
+#pills, #actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 }
+.pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px }
+.pill svg { width: 14px; height: 14px }
+#status { align-self: center; opacity: .6 }
+#history { display: flex; flex-direction: column; overflow: auto; flex: 1 }
+#history a { display: flex; justify-content: space-between; gap: 8px; padding: 4px 8px; border: 2px solid var(--fg); margin-top: -2px; color: inherit; text-decoration: none }
+#history a.free { color: var(--free) }
+#history span:first-child { overflow: hidden; text-overflow: ellipsis }
+#score { font-size: 22px; font-weight: bold }
+#grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px }
+.tile { position: relative; height: 74px; padding: 8px 2px 0; text-align: center; cursor: pointer; overflow: hidden; user-select: none; border: 2px solid transparent }
+.tile:hover, .tile:focus-visible { border-color: currentColor; outline: none }
+.tile > svg { width: 32px; height: 32px }
+.tile > b { display: block; height: 32px; font-size: 13px; line-height: 32px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.tile > small { display: block; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.tile nav { position: absolute; inset: auto 0 0 0; display: none; justify-content: center; gap: 2px; background: var(--bg) }
+.tile:hover nav, .tile:focus-within nav { display: flex }
+.tile nav > * { border-width: 1px; padding: 0 5px; font-size: 11px; line-height: 16px; color: var(--fg) }
+.tile nav button { display: none }
+.tile.open nav button, .tile.manual nav button { display: block }
+.free { color: var(--free) } .taken { color: var(--taken) } .probably_free { color: var(--probably_free) } .probably_taken { color: var(--probably_taken) }
+.unknown { color: var(--unknown) } .invalid { color: var(--invalid) }
+.manual { border: 2px dashed currentColor }
+.checking > :not(nav) { animation: pulse 1s ease-in-out infinite }
+.off > :not(nav) { opacity: .3; filter: grayscale(1) }
+.tile[hidden] { display: none }
+@keyframes pulse { 50% { opacity: .15 } }
+@media (prefers-reduced-motion: reduce) { .checking > :not(nav) { animation: none; opacity: .4 } }
+footer { margin-top: 24px; font-size: 11px; opacity: .6 }
+@media (max-width: 760px) { body { flex-direction: column } aside { width: auto; height: auto; position: static; border-right: 0; border-bottom: 3px solid var(--fg) } #history { max-height: 130px } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-swiss" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M10 3h10v5h-7v10a4 4 0 1 1-3-3.9z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 6l-6 6 6 6 1.5-1.5L5 12l4.5-4.5zm8 0l-1.5 1.5L19 12l-4.5 4.5L16 18l6-6z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5-6.5-4.5L5.500 21l2-7.5L2 9h7z"/></symbol>
+  <symbol id="i-all" viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></symbol>
+</svg>
+<aside>
+  <h1><img src="/untaken.svg" alt="">untaken</h1>
+  <div><span id="score"></span><br><span id="names"></span></div>
+  <label title="strict: only a verified green counts as free. off: orange (probably free) counts too"><input type="checkbox" id="strict"> strict mode</label>
+  <div id="history"></div>
+  <button id="clear" hidden>clear history</button>
+</aside>
+<main>
+  <form id="search"><input id="q" placeholder="name, or, several" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="64"><button>check</button></form>
+  <div id="pills"></div>
+  <div id="actions">
+    <button id="signup" title="opens one tab per free site - your browser will ask once to allow pop-ups">sign up to all</button>
+    <a class="button" href="https://github.com/blemli/untaken/issues/new" target="_blank" rel="noopener">give feedback on github</a>
+    <input id="filter" type="search" placeholder="find a site to add&hellip;" autocomplete="off" title="type to find a site, click it (or press enter) to add it">
+    <span id="status"></span>
+  </div>
+  <div id="grid"></div>
+  <footer>click a tile to make it optional &middot; black: not checked &middot; green: free &middot; orange: probably free &middot; red: taken &middot; light red: probably taken &middot; yellow: unknown, decide yourself with &check; &cross; (kept for an hour) &middot; purple: name not allowed there<br>
+  your searches are saved only in your browser, never on our server - except for the result cache, which lives in memory for one hour. the name is of course sent to the sites being checked.</footer>
+</main>
+<script>
+const D = /*DATA*/null, $ = (q, e = document) => e.querySelector(q), HOUR = 36e5
+const esc = s => String(s).replace(/[&<>"]/g, c => `&#${c.charCodeAt()};`)
+const store = (k, v) => { try { return v === undefined ? JSON.parse(localStorage['untaken.' + k] || 'null') : localStorage['untaken.' + k] = JSON.stringify(v) } catch { return null } }
+const site = Object.fromEntries(D.sites.map(s => [s.key, s]))
+const sets = {...D.presets, ...(D.popular.length ? {[`Popular in ${D.country}`]: {icon: 'star', sites: D.popular}} : {}), All: {icon: 'all', sites: Object.keys(site)}}
+const home = Object.values(D.presets).find(p => (p.region || []).includes(D.country)) || D.presets.Basic
+let name = '', live, round = 0, states = {}, why = {}, on = new Set(store('on') || home.sites), strict = !!store('strict'), past = store('history') || []
+let manual = Object.fromEntries(Object.entries(store('manual') || {}).filter(([, m]) => m[1] > Date.now()))  // what the user decided, kept for an hour
+
+const mine = k => manual[name + ' ' + k]
+const state = k => mine(k)?.[0] || states[k] || (name ? 'checking' : 'idle')
+const free = k => state(k) === 'free' || !strict && state(k) === 'probably_free'
+const wanted = () => D.sites.filter(s => on.has(s.key))
+
+function paint(k) {
+  $('#t-' + k).className = `tile ${state(k)}${on.has(k) ? '' : ' off'}${mine(k) ? ' manual' : ''}${/unknown|probably/.test(states[k]) ? ' open' : ''}`
+  $('#t-' + k + ' a').href = site[k].link.replaceAll('{}', name)
+  $('#t-' + k + ' small').textContent = states[k] === 'invalid' ? why[k] : site[k].icon ? site[k].name : '\u00a0'  // purple says what is not allowed
+}
+
+function tally() {
+  const all = wanted(), x = all.filter(s => free(s.key)).length, busy = all.some(s => state(s.key) === 'checking')
+  if (name && !busy) store('history', past = [{name, x, y: all.length}, ...past.filter(h => h.name !== name)].slice(0, 50))
+  $('#score').textContent = name ? `${x}/${all.length} free` : ''
+  $('#names').textContent = past.length ? `${past.filter(h => h.y && h.x === h.y).length}/${past.length} names free` : ''
+  $('#history').innerHTML = past.map(h => `<a href="#${encodeURIComponent(h.name)}" class="${h.y && h.x === h.y ? 'free' : ''}"><span>${esc(h.name)}</span><span>${h.x}/${h.y}</span></a>`).join('')
+  $('#clear').hidden = !past.length
+  $('#signup').textContent = `sign up to all${name && x ? ` (${x})` : ''}`
+  for (const b of document.querySelectorAll('.pill')) b.classList.toggle('active', sets[b.dataset.set].sites.length === on.size && sets[b.dataset.set].sites.every(k => on.has(k)))
+}
+
+function repaint() { Object.keys(site).forEach(paint); tally() }
+
+function finish(note) {
+  for (const k in site) states[k] ||= 'unknown'
+  $('#status').textContent = note || ''
+  repaint()
+}
+
+async function all(list) {  // several names, comma separated: one after the other, each lands in the stack
+  const names = [...new Set(list.toLowerCase().split(',').map(n => n.trim()).filter(Boolean))].slice(0, 20), mine = ++round
+  $('#q').value = names.join(', ')
+  if (!names.length) return run('')
+  for (const n of names) if (mine === round) await run(n)
+  if (mine === round && names.length > 1) $('#status').textContent ||= `${names.length} names checked - pick one from the stack.`
+}
+
+async function run(next) {
+  live?.abort()
+  name = next
+  states = {}, why = {}, $('#status').textContent = ''
+  repaint()
+  if (!name) return
+  const mine = live = new AbortController()
+  try {  // a POST, read as it streams: the name never shows up in a url
+    const r = await fetch('/check', {method: 'POST', body: JSON.stringify({name, on: [...on]}), signal: mine.signal})
+    if (!r.ok) throw r.status
+    for (let reader = r.body.pipeThrough(new TextDecoderStream()).getReader(), rest = '';;) {
+      const {value, done} = await reader.read()
+      if (done) break
+      const lines = (rest + value).split('\n')
+      rest = lines.pop()
+      for (const [, k, s, reason] of lines.map(l => l.match(/^data: (\S+) (\S+) ?(.*)/) || [])) if (site[k]) states[k] = s, why[k] = reason, paint(k)
+      tally()
+    }
+    finish()
+  } catch (e) {
+    if (mine === live && e.name !== 'AbortError') finish(e === 429 ? 'too many searches - give it a minute.' : 'could not finish - yellow tiles are unchecked.')
+  }
+}
+
+let group
+$('#grid').innerHTML = D.sites.map(s => (s.group === 'tld' && group !== (group = s.group) ? `<h3>domains</h3>` : '') +
+  `<div class="tile idle" id="t-${s.key}" tabindex="0" title="${esc(s.name)}${s.manual ? ` - ${esc(s.manual)}: open it and decide yourself` : ''}">` +
+  (s.icon ? `<svg><use href="/icons.svg#${s.key}"/></svg><small>${esc(s.name)}</small>` : `<b>${esc(s.name)}</b><small>&nbsp;</small>`) +
+  `<nav><a target="_blank" rel="noopener" title="open">&nearr;</a><button data-set="free" title="i checked: free">&check;</button><button data-set="taken" title="i checked: taken">&cross;</button></nav></div>`).join('')
+$('#pills').innerHTML = Object.entries(sets).map(([n, p]) => `<button class="pill" data-set="${esc(n)}"><svg><use href="#i-${p.icon}"/></svg>${esc(n)}</button>`).join('')
+$('#strict').checked = strict
+
+$('#grid').onclick = e => {
+  const t = e.target.closest('.tile'), b = e.target.closest('button')
+  if (!t || e.target.closest('a')) return
+  const k = t.id.slice(2), id = name + ' ' + k
+  if (b && name) { if (mine(k)?.[0] === b.dataset.set) delete manual[id]; else manual[id] = [b.dataset.set, Date.now() + HOUR]; store('manual', manual) }
+  else if (!b) { on.has(k) ? on.delete(k) : on.add(k); store('on', [...on]) }
+  paint(k), tally()
+}
+$('#grid').onkeydown = e => { if (e.key === 'Enter' && e.target.matches('.tile')) e.target.click() }
+$('#pills').onclick = e => { const b = e.target.closest('.pill'); if (b) { on = new Set(sets[b.dataset.set].sites); store('on', [...on]); repaint() } }
+$('#filter').oninput = e => { for (const s of D.sites) $('#t-' + s.key).hidden = !(s.key + ' ' + s.name).toLowerCase().includes(e.target.value.trim().toLowerCase()) }
+$('#filter').onkeydown = e => {  // enter: add the only match
+  const found = document.querySelectorAll('.tile:not([hidden])')
+  if (e.key === 'Enter' && found.length === 1) { on.add(found[0].id.slice(2)); store('on', [...on]); e.target.value = ''; e.target.oninput(e); repaint() }
+}
+$('#strict').onchange = e => { store('strict', strict = e.target.checked); tally() }
+$('#clear').onclick = () => { store('history', past = []); tally() }
+$('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(s.signup.replaceAll('{}', name), '_blank'))
+$('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? all($('#q').value) : location.hash = q }
+onhashchange = () => all(decodeURIComponent(location.hash.slice(1)))
+onhashchange()
+</script>
+</body>
+</html>

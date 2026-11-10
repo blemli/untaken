@@ -1,0 +1,30 @@
+service: untaken
+image: blemli/untaken
+servers:
+  web:
+    hosts:
+      - 185.66.109.77
+proxy:
+  ssl: true
+  host: untaken.problem.li
+  app_port: 8080
+registry:
+  server: localhost:5555
+env:
+  clear:
+    DB: /data/untaken.db
+  secret:
+    - LOGLI_SECRET
+volumes:
+  - "untaken_data:/data"
+builder:
+  arch:
+    - amd64
+  remote: ssh://webhost
+ssh:
+  config: true
+  port: 2022
+  user: deploy
+aliases:
+  apps: server exec docker exec kamal-proxy kamal-proxy list
+  ssh: app exec -i sh

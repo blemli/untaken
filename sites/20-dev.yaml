@@ -1,0 +1,124 @@
+github:
+  url: https://github.com/{}
+  signup: https://github.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9-
+  length: 1-39
+  valid: "[a-z0-9]+(-[a-z0-9]+)*"
+  hint: no -- and no - at the ends
+  known: github
+gitlab:
+  url: https://gitlab.com/users/{}/exists
+  link: https://gitlab.com/{}
+  signup: https://gitlab.com/users/sign_up
+  taken: {contains: '"exists":true'}
+  free: {contains: '"exists":false'}
+  chars: a-z0-9_.-
+  length: 2-255
+  known: gitlab-org
+codeberg:
+  url: https://codeberg.org/api/v1/users/{}
+  link: https://codeberg.org/{}
+  signup: https://codeberg.org/user/sign_up
+  taken: {status: 200, contains: '"login"'}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 1-39
+  known: forgejo
+npm:
+  url: https://registry.npmjs.org/{}
+  link: https://www.npmjs.com/package/{}
+  signup: https://www.npmjs.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9._-
+  length: 1-214
+  known: express
+pypi:
+  url: https://pypi.org/pypi/{}/json
+  link: https://pypi.org/project/{}/
+  signup: https://pypi.org/account/register/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9._-
+  length: 1-64
+  known: requests
+dockerhub:
+  icon: docker
+  url: https://hub.docker.com/v2/users/{}/
+  link: https://hub.docker.com/u/{}
+  signup: https://app.docker.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9
+  length: 4-30
+  known: nginx
+huggingface:
+  url: https://huggingface.co/{}
+  signup: https://huggingface.co/join
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 1-41
+  known: google
+crates:
+  icon: rust
+  url: https://crates.io/api/v1/crates/{}
+  link: https://crates.io/crates/{}
+  signup: https://crates.io/
+  taken: {status: 200}
+  free: {status: 404, contains: does not exist}
+  chars: a-z0-9_-
+  length: 1-64
+  valid: "[a-z].*"
+  hint: starts with a letter
+  known: serde
+rubygems:
+  url: https://rubygems.org/api/v1/gems/{}.json
+  link: https://rubygems.org/gems/{}
+  signup: https://rubygems.org/sign_up
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 1-61
+  known: rails
+packagist:
+  url: https://packagist.org/packages/{}/
+  signup: https://packagist.org/register/
+  taken: {status: 200, lands: "/packages/"}
+  free: {lands: vendor_not_found}
+  chars: a-z0-9_.-
+  length: 1-39
+  valid: "[a-z0-9]([_.-]?[a-z0-9]+)*"
+  hint: no doubled . _ -
+  known: laravel
+devto:
+  icon: devdotto
+  url: https://dev.to/api/users/by_username?url={}
+  link: https://dev.to/{}
+  signup: https://dev.to/enter?state=new-user
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_
+  length: 2-30
+  known: ben
+hackernews:
+  icon: ycombinator
+  url: https://hacker-news.firebaseio.com/v0/user/{}.json
+  link: https://news.ycombinator.com/user?id={}
+  signup: https://news.ycombinator.com/login
+  taken: {contains: '"id":"{}"'}
+  probably_free: {matches: "^null$"}
+  chars: a-z0-9_-
+  length: 2-15
+  known: whoishiring
+keybase:
+  url: https://keybase.io/_/api/1.0/user/lookup.json?usernames={}
+  link: https://keybase.io/{}
+  signup: https://keybase.io/
+  taken: {contains: '"username":"{}"'}
+  free: {contains: '"them":[null]'}
+  chars: a-z0-9_
+  length: 2-16
+  known: chris

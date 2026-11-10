@@ -1,0 +1,54 @@
+zefix:
+  url: https://www.zefix.ch/ZefixREST/api/v1/firm/search.json
+  method: POST
+  json: {name: "{}", languageKey: de, maxEntries: 1, offset: 0}
+  link: https://www.zefix.ch/de/search/entity/list?name={}
+  signup: https://www.easygov.swiss/
+  probably_taken: {status: 200, contains: '"legalSeat"'}
+  free: {status: 404, contains: NORESULT}
+  chars: a-z0-9-
+  length: 3-60
+  known: migros
+shopify:
+  url: https://{}.myshopify.com/
+  follow: false
+  signup: https://www.shopify.com/free-trial
+  taken: {status: [200, 301, 302]}
+  probably_free: {status: 404, contains: shop-404}
+  chars: a-z0-9-
+  length: 1-60
+  known: gymshark
+ebay:
+  link: https://www.ebay.com/usr/{}
+  signup: https://signup.ebay.com/pa/crte
+  manual: bot wall
+  chars: a-z0-9._-
+  length: 6-64
+ricardo:
+  url: https://www.ricardo.ch/de/shop/{}/
+  signup: https://www.ricardo.ch/de/registration/
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9_.-
+  length: 3-30
+  known: ricardo
+galaxus:
+  link: https://www.galaxus.ch/en/user/{}
+  signup: https://www.galaxus.ch/en/registration
+  manual: bot wall
+  chars: a-z0-9_.-
+  length: 3-30
+etsy:
+  link: https://www.etsy.com/shop/{}
+  signup: https://www.etsy.com/sell
+  manual: bot wall
+  chars: a-z0-9
+  length: 4-20
+gumroad:
+  url: https://{}.gumroad.com/
+  signup: https://gumroad.com/signup
+  taken: {status: 200}
+  free: {status: 404}
+  chars: a-z0-9
+  length: 3-20
+  known: sahil
