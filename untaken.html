@@ -27,9 +27,11 @@ form { display: flex; gap: 8px; max-width: 640px }
 .pill svg { width: 14px; height: 14px }
 #status { align-self: center; opacity: .6 }
 #history { display: flex; flex-direction: column; overflow: auto; flex: 1 }
-#history a { display: flex; justify-content: space-between; gap: 8px; padding: 4px 8px; border: 2px solid var(--fg); margin-top: -2px; color: inherit; text-decoration: none }
-#history a.free { color: var(--free) }
+#history div { display: flex; border: 2px solid var(--fg); margin-top: -2px }
+#history a { flex: 1; min-width: 0; display: flex; justify-content: space-between; gap: 8px; padding: 4px 8px; color: inherit; text-decoration: none }
+#history .free { color: var(--free) }
 #history span:first-child { overflow: hidden; text-overflow: ellipsis }
+#history button { border: 0; padding: 0 8px; opacity: .4 }
 #score { font-size: 22px; font-weight: bold }
 #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px }
 .tile { position: relative; height: 74px; padding: 8px 2px 0; text-align: center; cursor: pointer; overflow: hidden; user-select: none; border: 2px solid transparent }
@@ -110,7 +112,8 @@ function tally() {
   if (name && !busy) store('history', past = [{name, x, y: all.length}, ...past.filter(h => h.name !== name)].slice(0, 50))
   $('#score').textContent = name ? `${x}/${all.length} free` : ''
   $('#names').textContent = past.length ? `${past.filter(h => h.y && h.x === h.y).length}/${past.length} names free` : ''
-  $('#history').innerHTML = past.map(h => `<a href="#${encodeURIComponent(h.name)}" class="${h.y && h.x === h.y ? 'free' : ''}"><span>${esc(h.name)}</span><span>${h.x}/${h.y}</span></a>`).join('')
+  $('#history').innerHTML = past.map(h => `<div class="${h.y && h.x === h.y ? 'free' : ''}"><a href="#${encodeURIComponent(h.name)}"><span>${esc(h.name)}</span><span>${h.x}/${h.y}</span></a>` +
+    `<button data-drop="${esc(h.name)}" title="drop from the stack">&times;</button></div>`).join('')
   $('#clear').hidden = !past.length
   $('#signup').textContent = `sign up to all${name && x ? ` (${x})` : ''}`
   for (const b of document.querySelectorAll('.pill')) b.classList.toggle('active', sets[b.dataset.set].sites.length === on.size && sets[b.dataset.set].sites.every(k => on.has(k)))
@@ -180,6 +183,7 @@ $('#filter').onkeydown = e => {  // enter: add the only match
   if (e.key === 'Enter' && found.length === 1) { on.add(found[0].id.slice(2)); store('on', [...on]); e.target.value = ''; e.target.oninput(e); repaint() }
 }
 $('#strict').onchange = e => { store('strict', strict = e.target.checked); tally() }
+$('#history').onclick = e => { if (e.target.dataset.drop) { store('history', past = past.filter(h => h.name !== e.target.dataset.drop)); tally() } }
 $('#clear').onclick = () => { store('history', past = []); tally() }
 $('#signup').onclick = () => wanted().filter(s => s.signup && free(s.key)).forEach(s => window.open(fill(s, s.signup), '_blank'))
 $('#search').onsubmit = e => { e.preventDefault(); const q = encodeURIComponent($('#q').value.trim().toLowerCase()); location.hash === '#' + q ? all($('#q').value) : location.hash = q }
