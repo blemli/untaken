@@ -1,0 +1,8 @@
+republik:
+  url: https://www.republik.ch/~{}
+  signup: https://www.republik.ch/angebote
+  taken: {status: 200, lands: "/~{}$"}
+  probably_free: {status: 404}  # a profile that is not public is not found either
+  chars: a-z0-9.
+  length: 1-40
+  known: cseibt
