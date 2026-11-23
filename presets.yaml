@@ -12,7 +12,7 @@ Music:
   sites: [soundcloud, bandcamp, mixcloud, audius, discogs, bandlab, youtube, tiktok, instagram, linktree, music]
 Dev:
   icon: code
-  sites: [github, gitlab, gitea, npm, pypi, pubdev, rubygems, crates, dockerhub, huggingface, gitbook, devto, dev, io, com]
+  sites: [github, gitlab, gitea, npm, pypi, pubdev, rubygems, crates, dockerhub, huggingface, gitbook, devto, appstore, googleplay, dev, io, com]
 News:
   icon: news
   sites: [republik, freitag, mediapart, dailykos]

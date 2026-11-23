@@ -152,3 +152,23 @@ gitbook:
   chars: a-z0-9-
   length: 2-60
   known: gitbook
+appstore:  # app names are unique on apple's store: an app whose title starts with the name has it (us storefront)
+  name: App Store
+  url: https://itunes.apple.com/search?term={}&entity=software&limit=200
+  link: https://apps.apple.com/us/iphone/search?term={}
+  signup: https://developer.apple.com/programs/enroll/
+  probably_taken: {status: 200, matches: '(?i)"trackName":"{}\b'}
+  probably_free: {status: 200, matches: '(?is)\A(?!.*"trackName":"{}\b).*"resultCount"'}
+  chars: a-z0-9-
+  length: 2-30
+  known: threema
+googleplay:  # titles sit in obfuscated classes, the canary notices when they change. play allows twins, a title starting with the name still means somebody got there first
+  name: Google Play
+  url: https://play.google.com/store/search?q={}&c=apps&hl=en
+  link: https://play.google.com/store/search?q={}&c=apps
+  signup: https://play.google.com/console/signup
+  probably_taken: {status: 200, matches: '(?i)class="(?:DdYX5|vWM94c)">{}\b'}
+  probably_free: {status: 200, matches: '(?is)\A(?!.*class="(?:DdYX5|vWM94c)">{}\b).*Apps on Google Play'}
+  chars: a-z0-9-
+  length: 2-30
+  known: threema
