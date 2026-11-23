@@ -118,11 +118,15 @@ devto:
   known: ben
 hackernews:
   icon: ycombinator
-  url: https://hacker-news.firebaseio.com/v0/user/{}.json
+  url: https://news.ycombinator.com/user?id={}  # the profile page knows every account, silent ones too, and ignores case
   link: https://news.ycombinator.com/user?id={}
   signup: https://news.ycombinator.com/login
-  taken: {contains: '"id":"{}"'}
-  probably_free: {matches: "^null$"}
+  taken: {status: 200, contains: 'op="user"'}
+  free: {status: 200, matches: "^No such user\\.$"}
+  fallback:  # the api only knows accounts that posted, hence probably
+    url: https://hacker-news.firebaseio.com/v0/user/{}.json
+    taken: {contains: '"id":"{}"'}
+    probably_free: {matches: "^null$"}
   chars: a-z0-9_-
   length: 2-15
   known: whoishiring
